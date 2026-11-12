@@ -1,0 +1,16 @@
+# Published snapshot lives in docs/data. These local captures are too large for GitHub.
+临床试验_详情.jsonl
+临床试验_进行中_详情.csv
+临床试验_进行中.csv
+临床试验_进行中_整理.csv
+临床试验_进行中_去重.csv
+临床试验_进行中_详情_*.csv
+searchlist.html
+chunk_*.json
+__pycache__/
+*.py
+!build_site.py
+detail_progress.json
+detail_watch.json
+progress.json
+detail_errors.jsonl

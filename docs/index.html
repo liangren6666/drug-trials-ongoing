@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>进行中药物临床试验</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>进行中药物临床试验</h1>
+      <p class="lede">在浏览器里检索登记号、药物、适应症、题目和申请人。点开一条，再读取该条公示详情。</p>
+    </div>
+    <p class="snapshot" id="snapshot">正在读取索引</p>
+  </header>
+  <main class="workspace">
+    <section class="finder" aria-label="检索">
+      <form id="searchForm" role="search">
+        <label for="q">关键词</label>
+        <input id="q" class="search" type="search" placeholder="例如 CTR2026、尿酸、生物等效性" autocomplete="off" enterkeyhint="search">
+      </form>
+      <div class="filters" id="filters"></div>
+      <div class="countline">
+        <span id="count">索引尚未就绪</span>
+        <button type="button" class="ghost" id="clearBtn" hidden>清除条件</button>
+      </div>
+      <div class="results" id="results" role="listbox" aria-label="检索结果"></div>
+    </section>
+    <article class="detail" id="detail" aria-live="polite">
+      <p class="placeholder">从左侧选择一条登记记录。</p>
+    </article>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
