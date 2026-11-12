@@ -83,7 +83,7 @@ function renderResults() {
   const html = visible.map((row, index) => {
     const selected = index === state.selected ? ' aria-selected="true"' : ' aria-selected="false"';
     return `<button type="button" class="result" role="option" data-index="${index}"${selected}>
-      <span class="reg">${escapeHtml(row[COL.id])}</span><span class="drug">${escapeHtml(row[COL.drug] || "药物名称未公示")}</span>
+      <span class="reg">${escapeHtml(row[COL.id])}</span><span class="drug">${escapeHtml(cleanDrug(row[COL.drug]) || "药物名称未公示")}</span>
       <span class="title">${escapeHtml(row[COL.title] || row[COL.ind] || "")}</span>
       <span class="sub">${escapeHtml([row[COL.ind], readableName(row[COL.app])].filter(Boolean).join(" · "))}</span>
     </button>`;
@@ -102,6 +102,93 @@ function readableName(value) {
   const textValue = (value || "").trim();
   if (!textValue || /^[\d\s]+$/.test(textValue)) return "";
   return textValue;
+}
+
+function cleanDrug(value) {
+  return (value || "").replace(/\s*曾用名:\s*(NA)?\s*$/i, "").trim();
+}
+
+function chainNumbers(text, re) {
+  const marks = [];
+  let match = re.exec(text);
+  while (match) {
+    marks.push({ n: Number(match[1]), start: match.index, contentStart: match.index + match[0].length });
+    match = re.exec(text);
+  }
+  const chain = [];
+  let expect = 1;
+  for (const mark of marks) {
+    if (mark.n !== expect) continue;
+    chain.push(mark);
+    expect += 1;
+  }
+  if (chain.length < 2) return null;
+  return chain.map((mark, index) => {
+    const end = index + 1 < chain.length ? chain[index + 1].start : text.length;
+    return {
+      n: mark.n,
+      text: text.slice(mark.contentStart, end).trim().replace(/[；;]\s*$/, ""),
+    };
+  });
+}
+
+function splitNumbered(text) {
+  return chainNumbers(text, /(?:^|(?<=[；;。]))\s*(\d{1,2})(?=\s)/g)
+    || chainNumbers(text, /(?:^|\s)(\d{1,2})[）)]\s*/g)
+    || chainNumbers(text, /(?:^|\s)(\d{1,2})(?=\s+\S)/g);
+}
+
+function renderNumbered(text) {
+  const items = splitNumbered(text);
+  if (!items) return `<p class="prose">${escapeHtml(text)}</p>`;
+  const rows = items.map((item) => `<li><span class="num">${item.n}</span><span>${escapeHtml(item.text)}</span></li>`).join("");
+  return `<ol class="criteria">${rows}</ol>`;
+}
+
+function renderDrugs(text) {
+  const labels = ["中文通用名", "英文通用名", "商品名称", "剂型", "规格", "用法用量", "用药时程"];
+  const body = text.replace(/^序号\s*名称\s*用法\s*/, "");
+  const parts = body.split(/(?=\d+\s*中文通用名:)/).map((part) => part.trim()).filter(Boolean);
+  const cards = parts.map((part) => {
+    const cleaned = part.replace(/^\d+\s*/, "");
+    const re = new RegExp(`(${labels.join("|")}):`, "g");
+    const marks = [...cleaned.matchAll(re)];
+    if (!marks.length) return "";
+    const rows = marks.map((mark, index) => {
+      const start = mark.index + mark[0].length;
+      const end = index + 1 < marks.length ? marks[index + 1].index : cleaned.length;
+      const value = cleaned.slice(start, end).trim();
+      if (!value || value === "NA") return "";
+      return `<div class="row"><dt>${escapeHtml(mark[1])}</dt><dd>${escapeHtml(value)}</dd></div>`;
+    }).join("");
+    return rows ? `<div class="drug-card"><dl>${rows}</dl></div>` : "";
+  }).join("");
+  return cards || `<p class="prose">${escapeHtml(text)}</p>`;
+}
+
+function renderEndpoints(text) {
+  const body = text.replace(/^序号\s*指标\s*评价时间\s*终点指标选择\s*/, "");
+  const single = body.match(/^(\d{1,2})\s+([\s\S]+)$/);
+  const items = splitNumbered(body) || [{ n: single ? single[1] : "", text: single ? single[2] : body }];
+  const parsed = items.map((item) => {
+    const match = item.text.match(/^(.*)\s+(\S+)\s+(\S*指标\S*)$/);
+    if (!match || !match[1] || match[3].length > 40) return { ...item, measure: item.text, when: "", kind: "" };
+    return { n: item.n, measure: match[1], when: match[2], kind: match[3] };
+  });
+  if (!parsed.some((item) => item.when)) return renderNumbered(body);
+  const rows = parsed.map((item) => `<tr><td class="num">${escapeHtml(item.n)}</td><td>${escapeHtml(item.measure)}</td><td>${escapeHtml(item.when)}</td><td>${escapeHtml(item.kind)}</td></tr>`).join("");
+  return `<table class="endpoints"><thead><tr><th></th><th>指标</th><th>评价时间</th><th>终点</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+const JUNK_VALUE = /^(国家或地区|城市|职称|序号|版本号|名称|用法)$/;
+const LONG_FIELDS = new Set(["入选标准", "排除标准", "试验药", "对照药", "主要终点指标及评价时间", "次要终点指标及评价时间"]);
+
+function renderField(key, value) {
+  if (JUNK_VALUE.test(value.trim())) return "";
+  if (key === "试验药" || key === "对照药") return renderDrugs(value);
+  if (key === "主要终点指标及评价时间" || key === "次要终点指标及评价时间") return renderEndpoints(value);
+  if (key === "入选标准" || key === "排除标准" || /(?:^|\s)\d{1,2}[）)]\s/.test(value)) return renderNumbered(value);
+  return `<p class="prose">${escapeHtml(value)}</p>`;
 }
 
 function escapeHtml(value) {
@@ -146,10 +233,16 @@ async function loadRecord(row) {
 
 function renderDetail(id, record) {
   const blocks = GROUPS.map(([heading, keys]) => {
-    const rows = keys.filter((key) => record[key] && (key !== "申请人名称" || readableName(record[key])));
+    const rows = keys.filter((key) => record[key] && (key !== "申请人名称" || readableName(record[key])) && !JUNK_VALUE.test(String(record[key]).trim()));
     if (!rows.length) return "";
-    const body = rows.map((key) => `<div class="row"><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(record[key])}</dd></div>`).join("");
-    return `<section class="group"><h3>${heading}</h3><dl>${body}</dl></section>`;
+    const body = rows.map((key) => {
+      const value = key === "药物名称" ? cleanDrug(record[key]) : record[key];
+      if (LONG_FIELDS.has(key) || value.length > 180) {
+        return `<div class="stack"><h4>${escapeHtml(key)}</h4>${renderField(key, value)}</div>`;
+      }
+      return `<div class="row"><span class="k">${escapeHtml(key)}</span><span class="v">${escapeHtml(value)}</span></div>`;
+    }).join("");
+    return `<section class="group"><h3>${heading}</h3>${body}</section>`;
   }).join("");
   detailEl.innerHTML = `
     <button type="button" class="back" id="backBtn">返回列表</button>
