@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "临床试验_进行中_详情.csv"
+LIST_SRC = ROOT / "临床试验_进行中_整理.csv"
 DOCS = ROOT / "docs"
 DATA = DOCS / "data"
 SHARD_DIR = DATA / "shards"
@@ -25,7 +26,7 @@ INDEX_FIELDS = [
     ("cls", "试验分类"),
 ]
 
-FILTERS = ["药物类型", "试验分期", "试验分类"]
+FILTERS = ["药物类型", "试验分期", "试验分类", "招募状态"]
 PHASES = {"I期", "II期", "III期", "IV期"}
 CLASSES = {
     "安全性和有效性",
@@ -58,12 +59,17 @@ def bucket_class(value: str) -> str:
 
 
 def main() -> None:
+    with SRC.open(encoding="utf-8-sig", newline="") as f:
+        rows = list(csv.DictReader(f))
+
+    list_rows = {}
+    if LIST_SRC.exists():
+        with LIST_SRC.open(encoding="utf-8-sig", newline="") as f:
+            list_rows = {row["登记号"].strip(): row for row in csv.DictReader(f) if row.get("登记号")}
+
     SHARD_DIR.mkdir(parents=True, exist_ok=True)
     for old in SHARD_DIR.glob("shard-*.json"):
         old.unlink()
-
-    with SRC.open(encoding="utf-8-sig", newline="") as f:
-        rows = list(csv.DictReader(f))
 
     rows.sort(key=lambda row: row.get("登记号", ""), reverse=True)
 
@@ -94,23 +100,29 @@ def main() -> None:
         current_bytes += len(encoded.encode("utf-8"))
         phase = bucket_phase(detail.get("试验分期", ""))
         klass = bucket_class(detail.get("试验分类", ""))
+        base = list_rows.get(reg, {})
+        status = detail.get("试验状态") or base.get("试验主状态", "")
+        recruit = base.get("招募状态", "") if status == base.get("试验主状态") else ""
         index_rows.append(
             [
                 reg,
-                detail.get("药物名称", ""),
-                detail.get("适应症", ""),
-                detail.get("试验通俗题目", ""),
+                detail.get("药物名称") or base.get("药物名称", ""),
+                detail.get("适应症") or base.get("适应症", ""),
+                detail.get("试验通俗题目") or base.get("试验通俗题目", ""),
                 detail.get("申请人名称", ""),
                 detail.get("药物类型", ""),
                 phase,
                 klass,
                 len(shards),
+                status,
+                recruit,
             ]
         )
         for name, value in (
             ("药物类型", detail.get("药物类型", "")),
             ("试验分期", phase),
             ("试验分类", klass),
+            ("招募状态", recruit),
         ):
             if value:
                 filter_counts[name][value] += 1
@@ -131,7 +143,7 @@ def main() -> None:
     index_path.write_text(
         json.dumps(
             {
-                "cols": ["id", *(key for key, _ in INDEX_FIELDS), "shard"],
+                "cols": ["id", *(key for key, _ in INDEX_FIELDS), "shard", "status", "recruit"],
                 "rows": index_rows,
             },
             ensure_ascii=False,

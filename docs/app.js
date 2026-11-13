@@ -1,7 +1,7 @@
-const PAGE = 40;
-const COL = { id: 0, drug: 1, ind: 2, title: 3, app: 4, type: 5, phase: 6, cls: 7, shard: 8 };
+const PAGE = 20;
+const COL = { id: 0, drug: 1, ind: 2, title: 3, app: 4, type: 5, phase: 6, cls: 7, shard: 8, status: 9, recruit: 10 };
 const GROUPS = [
-  ["公示", ["试验状态", "首次公示信息日期", "相关登记号", "临床申请受理号", "备案号"]],
+  ["公示", ["试验状态", "招募状态", "首次公示信息日期", "相关登记号", "临床申请受理号", "备案号"]],
   ["药物", ["药物名称", "药物类型", "适应症", "方案是否为联合用药"]],
   ["题目与方案", ["试验通俗题目", "试验专业题目", "试验方案编号", "方案最新版本号", "版本日期"]],
   ["申请与联系", ["申请人名称", "申请人联系人", "联系人姓名", "联系人座机", "联系人手机号", "联系人Email", "联系人邮政地址", "联系人邮编"]],
@@ -16,9 +16,11 @@ const state = {
   meta: null,
   rows: [],
   matches: [],
-  shown: PAGE,
+  page: 1,
+  sort: "id-desc",
   selected: -1,
   shards: new Map(),
+  pendingShards: new Map(),
   activeId: "",
 };
 
@@ -29,6 +31,13 @@ const resultsEl = document.querySelector("#results");
 const detailEl = document.querySelector("#detail");
 const snapshotEl = document.querySelector("#snapshot");
 const clearBtn = document.querySelector("#clearBtn");
+const listView = document.querySelector("#listView");
+const detailView = document.querySelector("#detailView");
+const paginationEl = document.querySelector("#pagination");
+const advancedBtn = document.querySelector("#advancedBtn");
+const advancedPanel = document.querySelector("#advancedPanel");
+const fieldInputs = [...document.querySelectorAll("[data-field]")];
+const downloadBtn = document.querySelector("#downloadBtn");
 const filterSelects = [];
 
 function text(value) {
@@ -48,54 +57,103 @@ function currentFilters() {
 }
 
 function hasQuery() {
-  return q.value.trim() || filterSelects.some((select) => select.value);
+  return q.value.trim() || filterSelects.some((select) => select.value) || fieldInputs.some((input) => input.value.trim());
 }
 
 function applySearch() {
+  if (!state.meta) return;
   const terms = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
   const picked = currentFilters();
   state.matches = state.rows.filter((row) => {
     if (picked.type && row[COL.type] !== picked.type) return false;
     if (picked.phase && row[COL.phase] !== picked.phase) return false;
     if (picked.cls && row[COL.cls] !== picked.cls) return false;
+    if (picked.recruit && row[COL.recruit] !== picked.recruit) return false;
+    if (fieldInputs.some((input) => !text(row[COL[input.dataset.field]]).includes(text(input.value.trim())))) return false;
     if (!terms.length) return true;
     const blob = rowBlob(row);
     return terms.every((term) => blob.includes(term));
   });
-  state.shown = PAGE;
+  state.page = 1;
   state.selected = -1;
   clearBtn.hidden = !hasQuery();
+  sortMatches();
   renderResults();
+}
+
+function trialStatus(row) {
+  return [row[COL.status], row[COL.recruit]].filter(Boolean).join(" ") || "状态未采集";
+}
+
+function sortMatches() {
+  const byStatus = state.sort.startsWith("status");
+  const direction = state.sort.endsWith("asc") ? 1 : -1;
+  state.matches.sort((a, b) => {
+    const primary = byStatus ? trialStatus(a).localeCompare(trialStatus(b), "zh-CN") : a[COL.id].localeCompare(b[COL.id]);
+    return primary * direction || b[COL.id].localeCompare(a[COL.id]);
+  });
+  for (const button of document.querySelectorAll("[data-sort]")) {
+    button.setAttribute("aria-pressed", String(button.dataset.sort === state.sort));
+  }
 }
 
 function renderResults() {
   const total = state.matches.length;
-  const visible = state.matches.slice(0, state.shown);
-  if (!hasQuery()) {
-    countEl.textContent = `共 ${state.meta.count.toLocaleString("zh-CN")} 条，先显示最新登记`;
-  } else {
-    countEl.textContent = `命中 ${total.toLocaleString("zh-CN")} 条`;
-  }
+  const start = (state.page - 1) * PAGE;
+  const visible = state.matches.slice(start, start + PAGE);
+  countEl.textContent = `共 ${total.toLocaleString("zh-CN")} 条记录，当前第 ${total ? state.page : 0} 页`;
+  downloadBtn.disabled = !total;
   if (!visible.length) {
-    resultsEl.innerHTML = '<p class="status">没有符合条件的登记。换一个关键词，或清除筛选。</p>';
+    resultsEl.innerHTML = '<tr><td colspan="6" class="table-message">没有符合条件的登记。请更换关键词，或点击“清除条件”重新查询。</td></tr>';
+    paginationEl.innerHTML = "";
     return;
   }
-  const html = visible.map((row, index) => {
-    const selected = index === state.selected ? ' aria-selected="true"' : ' aria-selected="false"';
-    return `<button type="button" class="result" role="option" data-index="${index}"${selected}>
-      <span class="reg">${escapeHtml(row[COL.id])}</span><span class="drug">${escapeHtml(cleanDrug(row[COL.drug]) || "药物名称未公示")}</span>
-      <span class="title">${escapeHtml(row[COL.title] || row[COL.ind] || "")}</span>
-      <span class="sub">${escapeHtml([row[COL.ind], readableName(row[COL.app])].filter(Boolean).join(" · "))}</span>
-    </button>`;
+  resultsEl.innerHTML = visible.map((row, index) => {
+    return `<tr>
+      <td>${start + index + 1}</td>
+      <td><a class="result-link" data-index="${start + index}" href="#${encodeURIComponent(row[COL.id])}">${escapeHtml(row[COL.id])}</a></td>
+      <td>${escapeHtml(row[COL.status] || "状态未采集")}${row[COL.recruit] ? `<span class="recruit">${escapeHtml(row[COL.recruit])}</span>` : ""}</td>
+      <td>${escapeHtml(cleanDrug(row[COL.drug]) || "未采集")}</td>
+      <td>${escapeHtml(row[COL.ind] || "未采集")}</td>
+      <td>${escapeHtml(row[COL.title] || "未采集")}</td>
+    </tr>`;
   }).join("");
-  const more = state.shown < total
-    ? `<button type="button" class="more" id="moreBtn">再显示 ${Math.min(PAGE, total - state.shown)} 条</button>`
-    : "";
-  resultsEl.innerHTML = html + more;
-  document.querySelector("#moreBtn")?.addEventListener("click", () => {
-    state.shown += PAGE;
-    renderResults();
+  renderPagination(total);
+}
+
+function renderPagination(total) {
+  const pages = Math.ceil(total / PAGE);
+  const pageButton = (page, label, disabled = false) => `<button type="button" data-page="${page}"${disabled ? " disabled" : ""}${page === state.page && !label ? ' aria-current="page"' : ""} aria-label="${label || `第 ${page} 页`}">${label || page}</button>`;
+  const numbers = [...new Set([1, ...Array.from({ length: 5 }, (_, i) => state.page + i - 2), pages])].filter((p) => p > 0 && p <= pages).sort((a, b) => a - b);
+  const links = numbers.map((page, index) => `${index && page > numbers[index - 1] + 1 ? '<span class="page-gap">…</span>' : ""}${pageButton(page)}`).join("");
+  paginationEl.innerHTML = `<div class="pagination-summary">
+    <form class="jump-form" id="jumpForm"><label for="jumpPage">跳转到</label><input id="jumpPage" type="number" min="1" max="${pages}" value="${state.page}" required aria-label="跳转页码"><span>页</span><button type="submit" class="plain-button">确定</button></form>
+    <span>当前第 ${state.page} 页，共 ${pages} 页，共 ${total.toLocaleString("zh-CN")} 条记录</span>
+    </div><nav class="page-links" aria-label="结果分页">${pageButton(state.page - 1, "上一页", state.page === 1)}${links}${pageButton(state.page + 1, "下一页", state.page === pages)}</nav>`;
+  document.querySelector("#jumpForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    goToPage(Number(document.querySelector("#jumpPage").value));
   });
+}
+
+function goToPage(page) {
+  if (!Number.isInteger(page) || page < 1 || page > Math.ceil(state.matches.length / PAGE)) return;
+  state.page = page;
+  renderResults();
+  document.querySelector(".results-toolbar").scrollIntoView({ block: "start" });
+}
+
+function showList(focus = false) {
+  state.activeId = "";
+  listView.hidden = false;
+  detailView.hidden = true;
+  document.querySelector("#breadcrumbCurrent").textContent = "查询结果";
+  document.title = "试验公示和查询 · 进行中药物临床试验";
+  history.replaceState(null, "", location.pathname + location.search);
+  if (focus) {
+    const link = resultsEl.querySelector(`[data-index="${state.selected}"]`);
+    (link || q).focus();
+  }
 }
 
 function readableName(value) {
@@ -202,71 +260,77 @@ function escapeHtml(value) {
 async function openRow(index) {
   const row = state.matches[index];
   if (!row) return;
+  await openRecord(row, index);
+}
+
+async function openRecord(row, index = -1, updateUrl = true) {
   state.selected = index;
   state.activeId = row[COL.id];
-  history.replaceState(null, "", `#${encodeURIComponent(row[COL.id])}`);
-  document.body.dataset.open = "true";
-  for (const button of resultsEl.querySelectorAll(".result")) {
-    button.setAttribute("aria-selected", button.dataset.index === String(index) ? "true" : "false");
-  }
+  if (updateUrl && location.hash !== `#${encodeURIComponent(row[COL.id])}`) history.pushState(null, "", `#${encodeURIComponent(row[COL.id])}`);
+  listView.hidden = true;
+  detailView.hidden = false;
+  document.querySelector("#breadcrumbCurrent").textContent = "试验详情";
+  document.querySelector("#copyBtn").textContent = "复制本条链接";
+  document.title = `${row[COL.id]} · 试验登记详情`;
+  window.scrollTo({ top: 0 });
   detailEl.innerHTML = `<p class="status">正在读取 ${escapeHtml(row[COL.id])} 的详情…</p>`;
   try {
     const record = await loadRecord(row);
-    renderDetail(row[COL.id], record);
+    if (state.activeId !== row[COL.id]) return;
+    renderDetail(row, record);
   } catch (error) {
-    detailEl.innerHTML = `<p class="status" data-kind="error">详情没有读出来。${escapeHtml(error.message || "请再选一次。")}</p>`;
+    if (state.activeId !== row[COL.id]) return;
+    detailEl.innerHTML = `<div class="status" data-kind="error"><p>详情加载失败。请检查网络后重试，或返回查询结果。</p><button type="button" class="plain-button" id="retryBtn">重新加载详情</button></div>`;
+    document.querySelector("#retryBtn").addEventListener("click", () => openRecord(row, index, false));
   }
 }
 
 async function loadRecord(row) {
   const shardNo = row[COL.shard];
   if (!state.shards.has(shardNo)) {
-    const name = state.meta.shards[shardNo];
-    const response = await fetch(name);
-    if (!response.ok) throw new Error(`分片 ${name} 返回 ${response.status}`);
-    state.shards.set(shardNo, await response.json());
+    if (!state.pendingShards.has(shardNo)) {
+      const promise = (async () => {
+        const name = state.meta.shards[shardNo];
+        const response = await fetch(name);
+        if (!response.ok) throw new Error(`分片 ${name} 返回 ${response.status}`);
+        state.shards.set(shardNo, await response.json());
+      })();
+      state.pendingShards.set(shardNo, promise);
+    }
+    try {
+      await state.pendingShards.get(shardNo);
+    } finally {
+      state.pendingShards.delete(shardNo);
+    }
   }
   const record = state.shards.get(shardNo)[row[COL.id]];
   if (!record) throw new Error("这条登记不在对应分片里。");
   return record;
 }
 
-function renderDetail(id, record) {
+function renderDetail(row, sourceRecord) {
+  const id = row[COL.id];
+  const incomplete = !Object.keys(sourceRecord).length;
+  const record = {
+    "药物名称": row[COL.drug], "适应症": row[COL.ind], "试验通俗题目": row[COL.title],
+    "试验状态": row[COL.status], "招募状态": row[COL.recruit], ...sourceRecord,
+  };
   const blocks = GROUPS.map(([heading, keys]) => {
     const rows = keys.filter((key) => record[key] && (key !== "申请人名称" || readableName(record[key])) && !JUNK_VALUE.test(String(record[key]).trim()));
     if (!rows.length) return "";
     const body = rows.map((key) => {
       const value = key === "药物名称" ? cleanDrug(record[key]) : record[key];
-      if (LONG_FIELDS.has(key) || value.length > 180) {
-        return `<div class="stack"><h4>${escapeHtml(key)}</h4>${renderField(key, value)}</div>`;
-      }
-      return `<div class="row"><span class="k">${escapeHtml(key)}</span><span class="v">${escapeHtml(value)}</span></div>`;
+      return `<div class="row"><dt>${escapeHtml(key)}</dt><dd>${LONG_FIELDS.has(key) || value.length > 180 ? renderField(key, value) : escapeHtml(value)}</dd></div>`;
     }).join("");
-    return `<section class="group"><h3>${heading}</h3>${body}</section>`;
+    return `<section class="group"><h2>${heading}</h2><dl class="record-fields">${body}</dl></section>`;
   }).join("");
   detailEl.innerHTML = `
-    <button type="button" class="back" id="backBtn">返回列表</button>
-    <p class="reg">${escapeHtml(id)}</p>
-    <h2>${escapeHtml(record["试验通俗题目"] || record["药物名称"] || id)}</h2>
-    <div class="detail-tools">
-      <span class="seal">${escapeHtml(record["试验状态"] || "进行中")}</span>
-      <button type="button" class="ghost" id="copyBtn">复制本条链接</button>
-    </div>
+    <h1 class="detail-title" tabindex="-1">${escapeHtml(record["试验通俗题目"] || record["药物名称"] || id)}</h1>
+    <p class="detail-meta"><span>登记号：${escapeHtml(id)}</span><span>试验状态：${escapeHtml(trialStatus(row))}</span><span>数据日期：${escapeHtml(state.meta.snapshot)}</span></p>
+    ${incomplete ? '<p class="status">本条详情尚未采集成功，以下显示列表中的基本信息。</p>' : ""}
     ${blocks || '<p class="placeholder">这条记录没有可显示的字段。</p>'}
   `;
-  document.querySelector("#backBtn")?.addEventListener("click", () => {
-    document.body.dataset.open = "false";
-    q.focus();
-  });
-  document.querySelector("#copyBtn")?.addEventListener("click", async (event) => {
-    const button = event.currentTarget;
-    try {
-      await navigator.clipboard.writeText(location.href);
-      button.textContent = "已复制";
-    } catch {
-      button.textContent = "复制失败，请从地址栏复制";
-    }
-  });
+  document.querySelector(".detail-title").focus({ preventScroll: true });
 }
 
 function buildFilters() {
@@ -274,6 +338,7 @@ function buildFilters() {
     ["药物类型", "type"],
     ["试验分期", "phase"],
     ["试验分类", "cls"],
+    ["招募状态", "recruit"],
   ];
   filtersEl.innerHTML = specs.map(([label, key]) => {
     const options = state.meta.filters[label] || [];
@@ -286,49 +351,57 @@ function buildFilters() {
 
 function moveSelection(delta) {
   if (!state.matches.length) return;
-  const next = Math.min(state.matches.length - 1, Math.max(0, state.selected + delta));
-  if (next >= state.shown) {
-    state.shown = next + 1;
+  const base = state.selected < 0 ? (state.page - 1) * PAGE : state.selected;
+  const next = Math.min(state.matches.length - 1, Math.max(0, base + delta));
+  const page = Math.floor(next / PAGE) + 1;
+  if (page !== state.page) {
+    state.page = page;
     renderResults();
   }
+  state.selected = next;
   const button = resultsEl.querySelector(`[data-index="${next}"]`);
   button?.focus();
   button?.scrollIntoView({ block: "nearest" });
-  openRow(next);
 }
 
 resultsEl.addEventListener("click", (event) => {
-  const button = event.target.closest(".result");
-  if (!button) return;
+  const button = event.target.closest(".result-link");
+  if (!button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
   openRow(Number(button.dataset.index));
 });
 
-q.addEventListener("input", () => {
+function scheduleSearch() {
   window.clearTimeout(applySearch._timer);
   applySearch._timer = window.setTimeout(applySearch, 80);
-});
+}
+q.addEventListener("input", scheduleSearch);
+for (const input of fieldInputs) input.addEventListener("input", scheduleSearch);
 document.querySelector("#searchForm").addEventListener("submit", (event) => {
   event.preventDefault();
+  if (!state.meta) return;
+  window.clearTimeout(applySearch._timer);
   applySearch();
-  if (state.matches.length) openRow(0);
 });
 clearBtn.addEventListener("click", () => {
   q.value = "";
   for (const select of filterSelects) select.value = "";
+  for (const input of fieldInputs) input.value = "";
   applySearch();
   q.focus();
 });
 document.addEventListener("keydown", (event) => {
-  if (event.key === "/" && document.activeElement !== q) {
+  const editing = ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement?.tagName);
+  if (event.key === "/" && !editing && !listView.hidden) {
     event.preventDefault();
     q.focus();
   } else if (event.key === "ArrowDown" && document.activeElement === q) {
     event.preventDefault();
     moveSelection(state.selected < 0 ? 0 : 1);
-  } else if (event.key === "ArrowDown" && event.target.classList?.contains("result")) {
+  } else if (event.key === "ArrowDown" && event.target.classList?.contains("result-link")) {
     event.preventDefault();
     moveSelection(1);
-  } else if (event.key === "ArrowUp" && event.target.classList?.contains("result")) {
+  } else if (event.key === "ArrowUp" && event.target.classList?.contains("result-link")) {
     event.preventDefault();
     moveSelection(-1);
   }
@@ -336,29 +409,81 @@ document.addEventListener("keydown", (event) => {
 
 async function main() {
   try {
-    const [metaResponse, indexResponse] = await Promise.all([fetch("data/meta.json"), fetch("data/index.json")]);
+    const [metaResponse, indexResponse] = await Promise.all([
+      fetch("data/meta.json", { cache: "no-cache" }),
+      fetch("data/index.json?v=3", { cache: "no-cache" }),
+    ]);
     if (!metaResponse.ok || !indexResponse.ok) throw new Error("索引文件没有返回");
     state.meta = await metaResponse.json();
     const index = await indexResponse.json();
     state.rows = index.rows;
-    snapshotEl.innerHTML = `<strong>${escapeHtml(state.meta.snapshot)}</strong><br>${escapeHtml(state.meta.query)} · ${state.meta.count.toLocaleString("zh-CN")} 条`;
+    snapshotEl.textContent = `数据日期：${state.meta.snapshot} · ${state.meta.query} · ${state.meta.count.toLocaleString("zh-CN")} 条`;
     buildFilters();
     applySearch();
-    const wanted = decodeURIComponent(location.hash.replace(/^#/, ""));
-    if (wanted) {
-      const found = state.rows.findIndex((row) => row[COL.id] === wanted);
-      if (found >= 0) {
-        q.value = wanted;
-        applySearch();
-        const matchIndex = state.matches.findIndex((row) => row[COL.id] === wanted);
-        if (matchIndex >= 0) openRow(matchIndex);
-      }
-    }
+    openFromHash();
   } catch (error) {
     snapshotEl.textContent = "索引没有加载";
     countEl.textContent = "";
-    resultsEl.innerHTML = `<p class="status" data-kind="error">${escapeHtml(error.message || "读取失败")}。请通过本地网站或 GitHub Pages 打开，不要直接双击 HTML 文件。</p>`;
+    resultsEl.innerHTML = `<tr><td colspan="6" class="table-message">索引加载失败。请刷新重试，并通过本地网站或 GitHub Pages 打开页面。</td></tr>`;
   }
 }
 
+function openFromHash() {
+  if (!state.meta) return;
+  let id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch { id = ""; }
+  if (id === "main") return;
+  if (!id) { showList(); return; }
+  const row = state.rows.find((item) => item[COL.id] === id);
+  if (row) {
+    openRecord(row, state.matches.indexOf(row), false);
+  } else {
+    showList();
+    q.value = id;
+    applySearch();
+  }
+}
+
+advancedBtn.addEventListener("click", () => {
+  advancedPanel.hidden = !advancedPanel.hidden;
+  advancedBtn.setAttribute("aria-expanded", String(!advancedPanel.hidden));
+});
+for (const button of document.querySelectorAll("[data-sort]")) {
+  button.addEventListener("click", () => {
+    state.sort = button.dataset.sort;
+    state.page = 1;
+    state.selected = -1;
+    sortMatches();
+    renderResults();
+  });
+}
+paginationEl.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-page]");
+  if (button && !button.disabled) goToPage(Number(button.dataset.page));
+});
+document.querySelector("#backBtn").addEventListener("click", () => showList(true));
+document.querySelector("#copyBtn").addEventListener("click", async (event) => {
+  const button = event.currentTarget;
+  try {
+    await navigator.clipboard.writeText(location.href);
+    button.textContent = "已复制";
+  } catch { button.textContent = "请从地址栏复制链接"; }
+});
+for (const id of ["printBtn", "detailPrintBtn"]) document.querySelector(`#${id}`).addEventListener("click", () => window.print());
+downloadBtn.addEventListener("click", () => {
+  const quote = (value) => {
+    let cell = String(value ?? "");
+    if (/^[=+@\-\t\r]/.test(cell)) cell = "'" + cell;
+    return `"${cell.replaceAll('"', '""')}"`;
+  };
+  const rows = [["序号", "登记号", "试验状态", "药物名称", "适应症", "试验通俗题目"], ...state.matches.map((row, index) => [index + 1, row[COL.id], trialStatus(row), cleanDrug(row[COL.drug]), row[COL.ind], row[COL.title]])];
+  const csv = "\uFEFF" + rows.map((row) => row.map(quote).join(",")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `临床试验_查询结果_${state.meta.snapshot}.csv`;
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+window.addEventListener("hashchange", openFromHash);
 main();

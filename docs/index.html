@@ -3,34 +3,98 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>进行中药物临床试验</title>
-  <link rel="stylesheet" href="app.css?v=2">
+  <meta name="description" content="检索进行中药物临床试验的公开数据快照，查看登记信息、适应症和试验详情。">
+  <title>试验公示和查询 · 进行中药物临床试验</title>
+  <link rel="stylesheet" href="app.css?v=3">
 </head>
 <body>
-  <header class="top">
-    <div>
-      <h1>进行中药物临床试验</h1>
-      <p class="lede">在浏览器里检索登记号、药物、适应症、题目和申请人。点开一条，再读取该条公示详情。</p>
+  <a class="skip-link" href="#main">跳转到查询内容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="进行中药物临床试验首页">
+        <span class="brand-title">药物临床试验登记与信息公示平台</span>
+        <span class="brand-subtitle">进行中药物临床试验 · 数据快照</span>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <a href="./">首页</a>
+        <a href="./" aria-current="page">试验公示和查询</a>
+        <a href="https://www.chinadrugtrials.org.cn/clinicaltrials.index.dhtml" target="_blank" rel="noopener noreferrer">试验登记</a>
+        <a href="https://www.chinadrugtrials.org.cn/genericdrugs.index.dhtml" target="_blank" rel="noopener noreferrer">备案平台</a>
+        <a href="https://www.chinadrugtrials.org.cn/clinicaltrials.tongji.dhtml" target="_blank" rel="noopener noreferrer">信息统计</a>
+        <a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">原站入口</a>
+      </nav>
     </div>
-    <p class="snapshot" id="snapshot">正在读取索引</p>
   </header>
-  <main class="workspace">
-    <section class="finder" aria-label="检索">
-      <form id="searchForm" role="search">
-        <label for="q">关键词</label>
-        <input id="q" class="search" type="search" placeholder="例如 CTR2026、尿酸、生物等效性" autocomplete="off" enterkeyhint="search">
+
+  <main id="main" class="page-shell">
+    <div class="breadcrumb-bar">
+      <nav class="breadcrumbs" aria-label="当前位置">
+        <a href="./">首页</a><span aria-hidden="true">&gt;</span>
+        <a href="./">试验公示和查询</a><span aria-hidden="true">&gt;</span>
+        <span id="breadcrumbCurrent" aria-current="page">查询结果</span>
+      </nav>
+      <p class="snapshot" id="snapshot">正在读取数据快照…</p>
+    </div>
+
+    <section id="listView" aria-label="试验公示和查询">
+      <h1 class="sr-only">进行中药物临床试验查询</h1>
+      <form id="searchForm" class="search-panel" role="search">
+        <div class="search-line">
+          <label for="q" class="sr-only">关键词</label>
+          <input id="q" type="search" placeholder="输入登记号、药物名称、适应症或试验题目" autocomplete="off" enterkeyhint="search">
+          <button class="query-button" type="submit">查询</button>
+          <button class="advanced-button" id="advancedBtn" type="button" aria-expanded="false" aria-controls="advancedPanel">二级查询</button>
+        </div>
+        <div class="advanced-panel" id="advancedPanel" hidden>
+          <div class="field-grid">
+            <label>登记号<input type="text" data-field="id" autocomplete="off"></label>
+            <label>药物名称<input type="text" data-field="drug" autocomplete="off"></label>
+            <label>适应症<input type="text" data-field="ind" autocomplete="off"></label>
+            <label>试验通俗题目<input type="text" data-field="title" autocomplete="off"></label>
+          </div>
+          <div class="field-grid" id="filters"></div>
+          <p class="search-help">多个关键词用空格分隔；关键词、二级查询条件同时生效。</p>
+        </div>
       </form>
-      <div class="filters" id="filters"></div>
-      <div class="countline">
-        <span id="count">索引尚未就绪</span>
-        <button type="button" class="ghost" id="clearBtn" hidden>清除条件</button>
-      </div>
-      <div class="results" id="results" role="listbox" aria-label="检索结果"></div>
+      <section class="results-panel" aria-label="查询结果">
+        <div class="results-toolbar">
+          <div class="sort-controls" role="group" aria-label="结果排序">
+            <button type="button" data-sort="id-asc" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg>登记号升序</button>
+            <button type="button" data-sort="id-desc" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg>登记号降序</button>
+            <button type="button" data-sort="status-asc" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg>试验状态升序</button>
+            <button type="button" data-sort="status-desc" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg>试验状态降序</button>
+          </div>
+          <div class="utility-controls">
+            <button class="text-button" id="clearBtn" type="button" hidden>清除条件</button>
+            <button class="utility-button" id="downloadBtn" type="button" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8M5 7l3 3 3-3M3 11v3h10v-3"/></svg>下载结果</button>
+            <button class="utility-button" id="printBtn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6V2h8v4M4 12H2V6h12v6h-2M4 10h8v4H4z"/></svg>打印本页</button>
+          </div>
+        </div>
+        <p id="count" class="sr-only" role="status">索引尚未就绪</p>
+        <p class="table-hint">表格可左右滑动，点击登记号查看详情。</p>
+        <div class="table-scroll" role="region" aria-label="试验结果表格，可横向滚动" tabindex="0">
+          <table class="search-table">
+            <caption class="sr-only">临床试验查询结果</caption>
+            <colgroup><col class="col-no"><col class="col-id"><col class="col-status"><col class="col-drug"><col class="col-ind"><col class="col-title"></colgroup>
+            <thead><tr><th scope="col">序号</th><th scope="col">登记号</th><th scope="col">试验状态</th><th scope="col">药物名称</th><th scope="col">适应症</th><th scope="col">试验通俗题目</th></tr></thead>
+            <tbody id="results"><tr><td colspan="6" class="table-message">正在读取查询索引…</td></tr></tbody>
+          </table>
+        </div>
+        <div id="pagination" class="pagination-bar"></div>
+      </section>
     </section>
-    <article class="detail" id="detail" aria-live="polite">
-      <p class="placeholder">从左侧选择一条登记记录。</p>
+    <article id="detailView" class="detail-view" aria-label="试验登记详情" hidden>
+      <div class="detail-toolbar">
+        <button class="plain-button" id="backBtn" type="button">返回查询结果</button>
+        <div class="detail-actions"><button class="plain-button" id="copyBtn" type="button">复制本条链接</button><button class="utility-button" id="detailPrintBtn" type="button">打印详情</button></div>
+      </div>
+      <div id="detail" aria-live="polite"></div>
     </article>
   </main>
-  <script src="app.js?v=2"></script>
+  <footer class="site-footer">
+    <p>进行中药物临床试验 · 公开数据检索快照</p>
+    <p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">药物临床试验登记与信息公示平台</a>。最新试验信息请以原站公示为准。</p>
+  </footer>
+  <script src="app.js?v=3"></script>
 </body>
 </html>
