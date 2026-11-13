@@ -8,7 +8,7 @@
   <title>临床试验检索 · 让研究更清晰可见</title>
   <link rel="preload" href="assets/fonts/noto-serif-sc-display.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/images/research-glass.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="app.css?v=5">
+  <link rel="stylesheet" href="app.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#trials">跳转到试验检索</a>
@@ -32,7 +32,7 @@
         <div class="hero-copy">
           <h1>让临床研究，<br><span>更清晰可见。</span></h1>
           <p class="hero-description">每一项研究，都是探索的开始。<br>在公开的药物临床试验中，找到你关注的方向。</p>
-          <div class="hero-source"><span class="source-rule"></span><p>源于公开信息，连接研究与关注。</p></div>
+          <div class="hero-source"><span class="source-rule"></span><p id="snapshot">正在读取公开数据…</p></div>
         </div>
         <div class="hero-carousel" role="region" aria-roledescription="轮播图" aria-label="科学与生命主题视觉">
           <div class="carousel-slides" id="carouselSlides">
@@ -73,7 +73,6 @@
             <button class="text-button" id="clearBtn" type="button" hidden>清除筛选</button>
           </div>
         </form>
-        <p class="search-note" id="snapshot">正在读取公开数据…</p>
       </section>
 
       <section class="results-panel" aria-labelledby="resultsHeading">
@@ -110,6 +109,6 @@
     <div><a class="footer-name" href="./">临床试验检索</a><p>让公开信息，更容易被看见。</p></div>
     <div class="footer-source"><p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">药物临床试验登记与信息公示平台<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 3h7v7M17 3l-8 8"/></svg></a></p><p>本页为公开数据快照，最新状态请以原站公示为准。轮播图为 AI 概念视觉。</p></div>
   </footer>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

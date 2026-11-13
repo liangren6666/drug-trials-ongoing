@@ -24,15 +24,15 @@ colors:
 typography:
   display:
     fontFamily: '"Research Serif", "Noto Serif SC", "Songti SC", serif'
-    fontSize: "clamp(40px, 4.1vw, 58px)"
+    fontSize: "clamp(40px, 3.5vw, 52px)"
     fontWeight: 500
-    lineHeight: 1.45
+    lineHeight: 1.35
     letterSpacing: "-.025em"
   display-compact:
     fontFamily: '"Research Serif", "Noto Serif SC", "Songti SC", serif'
-    fontSize: "clamp(34px, 8.8vw, 44px)"
+    fontSize: "clamp(32px, 8vw, 40px)"
     fontWeight: 500
-    lineHeight: 1.5
+    lineHeight: 1.35
     letterSpacing: "-.025em"
   headline:
     fontFamily: '"Research Sans", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif'
@@ -50,7 +50,7 @@ typography:
     fontFamily: '"Research Sans", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif'
     fontSize: "17px"
     fontWeight: 500
-    lineHeight: 1.75
+    lineHeight: 1.6
   body:
     fontFamily: '"Research Sans", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif'
     fontSize: "15px"
@@ -161,7 +161,7 @@ components:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
     rounded: "{rounded.surface}"
-    padding: "22px 26px 18px"
+    padding: "12px 20px"
   table-container:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.table}"
@@ -245,7 +245,7 @@ components:
 
 整体使用居中的内容壳，最大宽度为 1280px。默认两侧共留 96px；不超过 1100px 时改为共 64px，不超过 760px 时改为共 40px。布局通过宽度、对齐和留白组织信息，不依赖满屏绿色页头。
 
-当前首页的桌面实例为两列介绍区：文字与轮播的比例为 1:1.05、间距为 64px，搜索面板紧随其后。轮播图默认高度为 352px，中间宽度为 320px，1700px 及以上为 385px。研究区与搜索面板相隔 42px；结果工具栏将标题和数量放在左侧，排序和导出放在右侧。桌面表格四列占比为 43%、27%、15%、15%，单元格默认内边距为 24px。
+当前首页的桌面实例为紧凑两列介绍区：文字与轮播的比例为 1.15:0.85、间距为 48px，搜索面板紧随其后。轮播图默认高度为 248px，中间宽度为 232px，1700px 及以上为 268px。快照信息放在介绍文字下方，搜索面板仅保留输入与筛选；研究区与搜索面板相隔 24px，工具栏下距 12px。桌面表格四列占比为 43%、27%、15%、15%，单元格内边距为纵向 16px、横向 24px。默认数据在 1440×900 视口首屏完整露出前两条研究，展示内容服务检索任务。
 
 手机将介绍区改为单列，轮播使用 1.9 的宽高比；搜索按钮占满一行，四个直接筛选排为两列。结果仍由同一语义表格提供，视觉上转为纵向研究条目：项目与适应症各占整行，阶段与招募状态在底部左右对齐。表头不再显示，适应症补充可见字段名。此实现以重排承载窄屏阅读，不需要桌面列表横向滚动。
 
@@ -309,3 +309,5 @@ components:
 - **Don't** 在当前平面组件上添加浮起阴影或玻璃模糊。
 - **Don't** 将科学概念图表达为具体试验、机构或临床效果的证据。
 - **Don't** 在扩展检索表面时恢复已移除的站外业务导航、重复查询和重复排序动作。
+
+本次布局收紧保留既有视觉世界：桌面页头高度 76px、手机 68px；手机介绍区上下留白为 20px、图片比例为 2.5，搜索面板内边距 12px，触控控件维持原有可用尺寸。

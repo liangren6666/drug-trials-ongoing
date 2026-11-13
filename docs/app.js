@@ -414,7 +414,7 @@ async function main() {
     state.meta = await metaResponse.json();
     const index = await indexResponse.json();
     state.rows = index.rows;
-    snapshotEl.textContent = `收录 ${state.meta.count.toLocaleString("zh-CN")} 项试验 · 数据快照 ${state.meta.snapshot.replaceAll("-", ".")} · 试验状态以原站公示为准`;
+    snapshotEl.textContent = `数据快照 ${state.meta.snapshot.replaceAll("-", ".")} · 收录 ${state.meta.count.toLocaleString("zh-CN")} 项试验`;
     buildFilters();
     applySearch();
     openFromHash();
