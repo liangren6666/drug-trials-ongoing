@@ -14,3 +14,5 @@ detail_progress.json
 detail_watch.json
 progress.json
 detail_errors.jsonl
+.impeccable/review/
+.impeccable/mocks/

@@ -1,0 +1,23 @@
+{
+  "generatedWith": "built-in image_gen",
+  "images": [
+    {
+      "file": "research-glass.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: premium clinical research website carousel photograph, landscape 3:2, no typography. Create a refined editorial macro photograph of transparent borosilicate laboratory glass: a large shallow clear petri dish and two small cylindrical sample vials holding pale jade green liquid on a warm ivory limestone tabletop. Delicate soft botanical shadows, bright diffuse daylight from the upper left, a quiet muted sage backdrop, realistic refractive glass and subtle water meniscus, excellent natural photographic detail. A sophisticated life-science journal cover aesthetic, calm, human, optimistic, no cold blue hospital cliches. Carefully composed asymmetrical still life with the glass objects at center-right, abundant breathing space, shallow depth of field, 85mm lens. Palette anchored in jade #349E75, warm cream, forest green, tiny amber accents. Only plausible laboratory glassware, no decorative molecule icons, no futuristic holograms, no people, no pills, no logos, no letters, no text, no watermark. This is conceptual editorial imagery, not a scientific diagram.",
+      "tool": "built-in image_gen",
+      "kind": "AI-generated conceptual editorial imagery"
+    },
+    {
+      "file": "research-nature.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: second carousel photograph for a refined clinical research search website, landscape 3:2. A luminous editorial close-up of a fresh green ginkgo leaf seen through a clear circular laboratory optical lens held in a simple brushed metal stand, delicate veins in sharp focus, natural jade green leaf and softly blurred sage background, warm cream stone surface, small realistic glass reflections, daylight, exceptionally elegant and quiet composition, tactility and organic texture. The real optical lens occupies the central right two thirds, cropped with confidence, spacious upper-left area. Fine art science-and-nature photography, 85mm macro lens, not a generic stock banner. Palette jade #349E75, moss, warm ivory, muted silver. No text, no lettering, no logos, no people, no icons, no holograms, no fanciful molecular geometry, no watermark. Conceptual editorial imagery, not a medical claim or scientific chart.",
+      "tool": "built-in image_gen",
+      "kind": "AI-generated conceptual editorial imagery"
+    },
+    {
+      "file": "research-hands.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: third editorial carousel photograph for a clinical research discovery website, landscape 3:2, no text. Close crop of a laboratory researcher's hands in clean pale nitrile gloves, holding a transparent shallow glass petri dish against warm daylight, a second hand using a simple glass pipette above it. Only the hands and ivory lab coat sleeves are visible, no face. A real, calm research moment photographed with a premium documentary aesthetic, quiet jade and sage lab background softly out of focus, warm cream surfaces, realistic skin-independent glove texture, immaculate natural glass detail, subtle amber light. Hands and dish form an elegant central composition, shallow depth of field, no visible branded equipment or labels. Colors harmonize with #349E75 and warm ivory. No letters, no writing, no watermark, no medical claims, no patient, no futuristic screens, no diagrammatic icons, no exaggerated glow.",
+      "tool": "built-in image_gen",
+      "kind": "AI-generated conceptual editorial imagery"
+    }
+  ]
+}

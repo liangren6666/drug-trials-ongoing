@@ -34,8 +34,7 @@ const clearBtn = document.querySelector("#clearBtn");
 const listView = document.querySelector("#listView");
 const detailView = document.querySelector("#detailView");
 const paginationEl = document.querySelector("#pagination");
-const advancedBtn = document.querySelector("#advancedBtn");
-const advancedPanel = document.querySelector("#advancedPanel");
+const sortSelect = document.querySelector("#sortSelect");
 const fieldInputs = [...document.querySelectorAll("[data-field]")];
 const downloadBtn = document.querySelector("#downloadBtn");
 const filterSelects = [];
@@ -92,30 +91,29 @@ function sortMatches() {
     const primary = byStatus ? trialStatus(a).localeCompare(trialStatus(b), "zh-CN") : a[COL.id].localeCompare(b[COL.id]);
     return primary * direction || b[COL.id].localeCompare(a[COL.id]);
   });
-  for (const button of document.querySelectorAll("[data-sort]")) {
-    button.setAttribute("aria-pressed", String(button.dataset.sort === state.sort));
-  }
+  sortSelect.value = state.sort;
 }
 
 function renderResults() {
   const total = state.matches.length;
   const start = (state.page - 1) * PAGE;
   const visible = state.matches.slice(start, start + PAGE);
-  countEl.textContent = `共 ${total.toLocaleString("zh-CN")} 条记录，当前第 ${total ? state.page : 0} 页`;
+  countEl.textContent = `找到 ${total.toLocaleString("zh-CN")} 项研究`;
   downloadBtn.disabled = !total;
   if (!visible.length) {
-    resultsEl.innerHTML = '<tr><td colspan="6" class="table-message">没有符合条件的登记。请更换关键词，或点击“清除条件”重新查询。</td></tr>';
+    resultsEl.innerHTML = '<tr><td colspan="4" class="table-message">没有符合条件的登记。请更换关键词，或点击“清除筛选”重新查询。</td></tr>';
     paginationEl.innerHTML = "";
     return;
   }
   resultsEl.innerHTML = visible.map((row, index) => {
+    const recruitment = row[COL.recruit] || row[COL.status] || "状态未采集";
+    const tagClass = recruitment === "招募中" ? "" : recruitment === "尚未招募" ? "pending" : "complete";
     return `<tr>
-      <td>${start + index + 1}</td>
-      <td><a class="result-link" data-index="${start + index}" href="#${encodeURIComponent(row[COL.id])}">${escapeHtml(row[COL.id])}</a></td>
-      <td>${escapeHtml(row[COL.status] || "状态未采集")}${row[COL.recruit] ? `<span class="recruit">${escapeHtml(row[COL.recruit])}</span>` : ""}</td>
-      <td>${escapeHtml(cleanDrug(row[COL.drug]) || "未采集")}</td>
-      <td>${escapeHtml(row[COL.ind] || "未采集")}</td>
-      <td>${escapeHtml(row[COL.title] || "未采集")}</td>
+      <td class="project-cell"><a class="result-link" data-index="${start + index}" href="#${encodeURIComponent(row[COL.id])}">${escapeHtml(cleanDrug(row[COL.drug]) || row[COL.id])}</a>
+        <p class="trial-title">${escapeHtml(row[COL.title] || "本条试验题目尚未采集")}</p><span class="trial-id">${escapeHtml(row[COL.id])}</span></td>
+      <td class="trial-indication">${escapeHtml(row[COL.ind] || "适应症尚未采集")}</td>
+      <td class="phase-cell"><span class="phase-label">${escapeHtml(row[COL.phase] || "分期未采集")}</span><span class="drug-type">${escapeHtml(row[COL.type] || "")}</span></td>
+      <td class="status-cell"><span class="recruit-tag ${tagClass}">${escapeHtml(recruitment)}</span><span class="trial-status">${escapeHtml(row[COL.status] || "")}</span></td>
     </tr>`;
   }).join("");
   renderPagination(total);
@@ -124,22 +122,18 @@ function renderResults() {
 function renderPagination(total) {
   const pages = Math.ceil(total / PAGE);
   const pageButton = (page, label, disabled = false) => `<button type="button" data-page="${page}"${disabled ? " disabled" : ""}${page === state.page && !label ? ' aria-current="page"' : ""} aria-label="${label || `第 ${page} 页`}">${label || page}</button>`;
-  const numbers = [...new Set([1, ...Array.from({ length: 5 }, (_, i) => state.page + i - 2), pages])].filter((p) => p > 0 && p <= pages).sort((a, b) => a - b);
+  const numbers = [...new Set([1, state.page - 1, state.page, state.page + 1, pages])].filter((p) => p > 0 && p <= pages).sort((a, b) => a - b);
   const links = numbers.map((page, index) => `${index && page > numbers[index - 1] + 1 ? '<span class="page-gap">…</span>' : ""}${pageButton(page)}`).join("");
-  paginationEl.innerHTML = `<div class="pagination-summary">
-    <form class="jump-form" id="jumpForm"><label for="jumpPage">跳转到</label><input id="jumpPage" type="number" min="1" max="${pages}" value="${state.page}" required aria-label="跳转页码"><span>页</span><button type="submit" class="plain-button">确定</button></form>
-    <span>当前第 ${state.page} 页，共 ${pages} 页，共 ${total.toLocaleString("zh-CN")} 条记录</span>
-    </div><nav class="page-links" aria-label="结果分页">${pageButton(state.page - 1, "上一页", state.page === 1)}${links}${pageButton(state.page + 1, "下一页", state.page === pages)}</nav>`;
-  document.querySelector("#jumpForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-    goToPage(Number(document.querySelector("#jumpPage").value));
-  });
+  const start = (state.page - 1) * PAGE + 1;
+  const end = Math.min(state.page * PAGE, total);
+  paginationEl.innerHTML = `<span class="pagination-summary">显示 ${start}–${end} 项，共 ${total.toLocaleString("zh-CN")} 项研究</span><nav class="page-links" aria-label="结果分页">${pageButton(state.page - 1, "上一页", state.page === 1)}${links}${pageButton(state.page + 1, "下一页", state.page === pages)}</nav>`;
 }
 
 function goToPage(page) {
   if (!Number.isInteger(page) || page < 1 || page > Math.ceil(state.matches.length / PAGE)) return;
   state.page = page;
   renderResults();
+  document.querySelector("#resultsHeading").focus({ preventScroll: true });
   document.querySelector(".results-toolbar").scrollIntoView({ block: "start" });
 }
 
@@ -148,8 +142,9 @@ function showList(focus = false) {
   listView.hidden = false;
   detailView.hidden = true;
   document.querySelector("#breadcrumbCurrent").textContent = "查询结果";
-  document.title = "试验公示和查询 · 进行中药物临床试验";
+  document.title = "临床试验检索 · 让研究更清晰可见";
   history.replaceState(null, "", location.pathname + location.search);
+  updateCarouselTimer();
   if (focus) {
     const link = resultsEl.querySelector(`[data-index="${state.selected}"]`);
     (link || q).focus();
@@ -269,8 +264,9 @@ async function openRecord(row, index = -1, updateUrl = true) {
   if (updateUrl && location.hash !== `#${encodeURIComponent(row[COL.id])}`) history.pushState(null, "", `#${encodeURIComponent(row[COL.id])}`);
   listView.hidden = true;
   detailView.hidden = false;
+  updateCarouselTimer();
   document.querySelector("#breadcrumbCurrent").textContent = "试验详情";
-  document.querySelector("#copyBtn").textContent = "复制本条链接";
+  document.querySelector("#copyBtn span").textContent = "复制链接";
   document.title = `${row[COL.id]} · 试验登记详情`;
   window.scrollTo({ top: 0 });
   detailEl.innerHTML = `<p class="status">正在读取 ${escapeHtml(row[COL.id])} 的详情…</p>`;
@@ -335,15 +331,15 @@ function renderDetail(row, sourceRecord) {
 
 function buildFilters() {
   const specs = [
-    ["药物类型", "type"],
-    ["试验分期", "phase"],
-    ["试验分类", "cls"],
-    ["招募状态", "recruit"],
+    ["药物类型", "type", "全部药物类型"],
+    ["试验分期", "phase", "全部试验分期"],
+    ["招募状态", "recruit", "全部招募状态"],
+    ["试验分类", "cls", "全部试验分类"],
   ];
-  filtersEl.innerHTML = specs.map(([label, key]) => {
+  filtersEl.innerHTML = specs.map(([label, key, allLabel]) => {
     const options = state.meta.filters[label] || [];
     const items = options.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("");
-    return `<label>${escapeHtml(label)}<select data-col="${key}"><option value="">全部</option>${items}</select></label>`;
+    return `<label><span class="sr-only">${escapeHtml(label)}</span><select data-col="${key}"><option value="">${allLabel}</option>${items}</select></label>`;
   }).join("");
   filterSelects.push(...filtersEl.querySelectorAll("select"));
   for (const select of filterSelects) select.addEventListener("change", applySearch);
@@ -382,6 +378,7 @@ document.querySelector("#searchForm").addEventListener("submit", (event) => {
   if (!state.meta) return;
   window.clearTimeout(applySearch._timer);
   applySearch();
+  document.querySelector(".results-panel").scrollIntoView({ block: "start" });
 });
 clearBtn.addEventListener("click", () => {
   q.value = "";
@@ -417,14 +414,14 @@ async function main() {
     state.meta = await metaResponse.json();
     const index = await indexResponse.json();
     state.rows = index.rows;
-    snapshotEl.textContent = `数据日期：${state.meta.snapshot} · ${state.meta.query} · ${state.meta.count.toLocaleString("zh-CN")} 条`;
+    snapshotEl.textContent = `收录 ${state.meta.count.toLocaleString("zh-CN")} 项试验 · 数据快照 ${state.meta.snapshot.replaceAll("-", ".")} · 试验状态以原站公示为准`;
     buildFilters();
     applySearch();
     openFromHash();
   } catch (error) {
     snapshotEl.textContent = "索引没有加载";
     countEl.textContent = "";
-    resultsEl.innerHTML = `<tr><td colspan="6" class="table-message">索引加载失败。请刷新重试，并通过本地网站或 GitHub Pages 打开页面。</td></tr>`;
+    resultsEl.innerHTML = `<tr><td colspan="4" class="table-message">索引加载失败。请刷新重试，并通过本地网站或 GitHub Pages 打开页面。</td></tr>`;
   }
 }
 
@@ -432,7 +429,11 @@ function openFromHash() {
   if (!state.meta) return;
   let id;
   try { id = decodeURIComponent(location.hash.slice(1)); } catch { id = ""; }
-  if (id === "main") return;
+  if (["main", "trials", "about"].includes(id)) {
+    if (id !== "about" && listView.hidden) showList();
+    document.querySelector(`#${id}`)?.scrollIntoView({ block: "start" });
+    return;
+  }
   if (!id) { showList(); return; }
   const row = state.rows.find((item) => item[COL.id] === id);
   if (row) {
@@ -444,19 +445,13 @@ function openFromHash() {
   }
 }
 
-advancedBtn.addEventListener("click", () => {
-  advancedPanel.hidden = !advancedPanel.hidden;
-  advancedBtn.setAttribute("aria-expanded", String(!advancedPanel.hidden));
+sortSelect.addEventListener("change", () => {
+  state.sort = sortSelect.value;
+  state.page = 1;
+  state.selected = -1;
+  sortMatches();
+  renderResults();
 });
-for (const button of document.querySelectorAll("[data-sort]")) {
-  button.addEventListener("click", () => {
-    state.sort = button.dataset.sort;
-    state.page = 1;
-    state.selected = -1;
-    sortMatches();
-    renderResults();
-  });
-}
 paginationEl.addEventListener("click", (event) => {
   const button = event.target.closest("[data-page]");
   if (button && !button.disabled) goToPage(Number(button.dataset.page));
@@ -466,10 +461,9 @@ document.querySelector("#copyBtn").addEventListener("click", async (event) => {
   const button = event.currentTarget;
   try {
     await navigator.clipboard.writeText(location.href);
-    button.textContent = "已复制";
-  } catch { button.textContent = "请从地址栏复制链接"; }
+    button.querySelector("span").textContent = "已复制";
+  } catch { button.querySelector("span").textContent = "请从地址栏复制"; }
 });
-for (const id of ["printBtn", "detailPrintBtn"]) document.querySelector(`#${id}`).addEventListener("click", () => window.print());
 downloadBtn.addEventListener("click", () => {
   const quote = (value) => {
     let cell = String(value ?? "");
@@ -486,4 +480,70 @@ downloadBtn.addEventListener("click", () => {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 window.addEventListener("hashchange", openFromHash);
+
+const slides = [...document.querySelectorAll(".carousel-slide")];
+const slideButtons = [...document.querySelectorAll("[data-slide]")];
+const carousel = document.querySelector(".hero-carousel");
+const carouselToggle = document.querySelector("#carouselToggle");
+const captions = ["从细微之处，开启探索。", "在生命细节里，发现新的问题。", "每一步探索，都值得被看见。"];
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let carouselIndex = 0;
+let carouselPaused = reducedMotion.matches;
+let carouselHovered = false;
+let carouselFocused = false;
+let carouselTimer;
+
+function showSlide(index) {
+  carouselIndex = index;
+  for (const [i, slide] of slides.entries()) {
+    const active = i === index;
+    slide.classList.toggle("is-active", active);
+    slide.setAttribute("aria-hidden", String(!active));
+    slide.inert = !active;
+    slideButtons[i].toggleAttribute("aria-current", active);
+    if (active) slideButtons[i].setAttribute("aria-current", "true");
+  }
+  document.querySelector("#carouselCaption").textContent = captions[index];
+}
+
+function updateCarouselTimer() {
+  window.clearTimeout(carouselTimer);
+  if (!carouselPaused && !carouselHovered && !carouselFocused && !document.hidden && !listView.hidden) {
+    carouselTimer = window.setTimeout(() => {
+      showSlide((carouselIndex + 1) % slides.length);
+      updateCarouselTimer();
+    }, 6500);
+  }
+}
+
+function updateCarouselButton() {
+  carouselToggle.setAttribute("aria-label", carouselPaused ? "播放轮播" : "暂停轮播");
+  carouselToggle.innerHTML = carouselPaused
+    ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6z"/></svg>'
+    : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg>';
+}
+
+for (const button of slideButtons) button.addEventListener("click", () => {
+  showSlide(Number(button.dataset.slide));
+  carouselPaused = true;
+  updateCarouselButton();
+  updateCarouselTimer();
+});
+carouselToggle.addEventListener("click", () => {
+  carouselPaused = !carouselPaused;
+  updateCarouselButton();
+  updateCarouselTimer();
+});
+carousel.addEventListener("mouseenter", () => { carouselHovered = true; updateCarouselTimer(); });
+carousel.addEventListener("mouseleave", () => { carouselHovered = false; updateCarouselTimer(); });
+carousel.addEventListener("focusin", () => { carouselFocused = true; updateCarouselTimer(); });
+carousel.addEventListener("focusout", (event) => { carouselFocused = carousel.contains(event.relatedTarget); updateCarouselTimer(); });
+document.addEventListener("visibilitychange", updateCarouselTimer);
+reducedMotion.addEventListener("change", (event) => {
+  carouselPaused = event.matches;
+  updateCarouselButton();
+  updateCarouselTimer();
+});
+updateCarouselButton();
+updateCarouselTimer();
 main();

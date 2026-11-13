@@ -3,98 +3,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="检索进行中药物临床试验的公开数据快照，查看登记信息、适应症和试验详情。">
-  <title>试验公示和查询 · 进行中药物临床试验</title>
-  <link rel="stylesheet" href="app.css?v=4">
+  <meta name="description" content="更清晰地探索药物临床试验公开信息。按药物、适应症、分期和招募状态检索研究，查看完整登记详情。">
+  <meta name="theme-color" content="#349E75">
+  <title>临床试验检索 · 让研究更清晰可见</title>
+  <link rel="preload" href="assets/fonts/noto-serif-sc-display.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/images/research-glass.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="app.css?v=5">
 </head>
 <body>
-  <a class="skip-link" href="#main">跳转到查询内容</a>
+  <a class="skip-link" href="#trials">跳转到试验检索</a>
   <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="./" aria-label="进行中药物临床试验首页">
-        <span class="brand-title">药物临床试验登记与信息公示平台</span>
-        <span class="brand-subtitle">进行中药物临床试验 · 数据快照</span>
+    <div class="header-inner shell">
+      <a class="brand" href="./" aria-label="临床试验检索首页">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="12" fill="currentColor"/><path d="M12 26V15m8 11V11m8 15v-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="12" r="1.5" fill="#fff"/><circle cx="28" cy="15" r="1.5" fill="#fff"/></svg>
+        <span>临床试验<span class="brand-light">检索</span></span>
       </a>
       <nav class="main-nav" aria-label="主导航">
-        <a href="./">首页</a>
-        <a href="./" aria-current="page">试验公示和查询</a>
-        <a href="https://www.chinadrugtrials.org.cn/clinicaltrials.index.dhtml" target="_blank" rel="noopener noreferrer">试验登记</a>
-        <a href="https://www.chinadrugtrials.org.cn/genericdrugs.index.dhtml" target="_blank" rel="noopener noreferrer">备案平台</a>
-        <a href="https://www.chinadrugtrials.org.cn/clinicaltrials.tongji.dhtml" target="_blank" rel="noopener noreferrer">信息统计</a>
-        <a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">原站入口</a>
+        <a href="#trials" class="nav-current">探索试验</a>
+        <a href="#about">数据说明</a>
       </nav>
+      <span class="header-note">公开数据 · 自由探索</span>
     </div>
   </header>
 
-  <main id="main" class="page-shell">
-    <div class="breadcrumb-bar">
-      <nav class="breadcrumbs" aria-label="当前位置">
-        <a href="./">首页</a><span aria-hidden="true">&gt;</span>
-        <a href="./">试验公示和查询</a><span aria-hidden="true">&gt;</span>
-        <span id="breadcrumbCurrent" aria-current="page">查询结果</span>
-      </nav>
-      <p class="snapshot" id="snapshot">正在读取数据快照…</p>
-    </div>
+  <main id="main" class="shell">
+    <section id="listView" aria-label="临床试验探索">
+      <section class="hero" aria-label="临床研究介绍">
+        <div class="hero-copy">
+          <h1>让临床研究，<br><span>更清晰可见。</span></h1>
+          <p class="hero-description">每一项研究，都是探索的开始。<br>在公开的药物临床试验中，找到你关注的方向。</p>
+          <div class="hero-source"><span class="source-rule"></span><p>源于公开信息，连接研究与关注。</p></div>
+        </div>
+        <div class="hero-carousel" role="region" aria-roledescription="轮播图" aria-label="科学与生命主题视觉">
+          <div class="carousel-slides" id="carouselSlides">
+            <figure class="carousel-slide is-active" role="group" aria-roledescription="幻灯片" aria-label="第 1 张，共 3 张" aria-hidden="false">
+              <img src="assets/images/research-glass.webp" width="1280" height="853" alt="暖色日光下的培养皿与绿色实验室玻璃器皿，AI 概念视觉" fetchpriority="high">
+            </figure>
+            <figure class="carousel-slide" role="group" aria-roledescription="幻灯片" aria-label="第 2 张，共 3 张" aria-hidden="true" inert>
+              <img src="assets/images/research-nature.webp" width="1280" height="853" alt="透过光学镜片观察绿色银杏叶的细腻纹理，AI 概念视觉" loading="lazy">
+            </figure>
+            <figure class="carousel-slide" role="group" aria-roledescription="幻灯片" aria-label="第 3 张，共 3 张" aria-hidden="true" inert>
+              <img src="assets/images/research-hands.webp" width="1280" height="853" alt="研究人员用滴管操作透明培养皿的近景，AI 概念视觉" loading="lazy">
+            </figure>
+          </div>
+          <div class="carousel-controls">
+            <p class="carousel-caption" id="carouselCaption">从细微之处，开启探索。</p>
+            <div class="carousel-navigation">
+              <div class="carousel-dots" role="group" aria-label="选择轮播图片">
+                <button type="button" data-slide="0" aria-label="查看第 1 张图片" aria-current="true"></button>
+                <button type="button" data-slide="1" aria-label="查看第 2 张图片"></button>
+                <button type="button" data-slide="2" aria-label="查看第 3 张图片"></button>
+              </div>
+              <button type="button" class="carousel-toggle" id="carouselToggle" aria-label="暂停轮播"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section id="listView" aria-label="试验公示和查询">
-      <h1 class="sr-only">进行中药物临床试验查询</h1>
-      <form id="searchForm" class="search-panel" role="search">
-        <div class="search-line">
-          <label for="q" class="sr-only">关键词</label>
-          <input id="q" type="search" placeholder="输入登记号、药物名称、适应症或试验题目" autocomplete="off" enterkeyhint="search">
-          <button class="query-button" type="submit">查询</button>
-          <button class="advanced-button" id="advancedBtn" type="button" aria-expanded="false" aria-controls="advancedPanel">二级查询</button>
-        </div>
-        <div class="advanced-panel" id="advancedPanel" hidden>
-          <div class="field-grid">
-            <label>登记号<input type="text" data-field="id" autocomplete="off"></label>
-            <label>药物名称<input type="text" data-field="drug" autocomplete="off"></label>
-            <label>适应症<input type="text" data-field="ind" autocomplete="off"></label>
-            <label>试验通俗题目<input type="text" data-field="title" autocomplete="off"></label>
+      <section class="search-section" id="trials" aria-label="试验检索">
+        <form id="searchForm" role="search">
+          <div class="search-line">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+            <label for="q" class="sr-only">关键词</label>
+            <input id="q" type="search" placeholder="搜索药物、适应症、试验题目或登记号" autocomplete="off" enterkeyhint="search">
+            <button class="primary-button" type="submit">搜索试验<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
           </div>
-          <div class="field-grid" id="filters"></div>
-          <p class="search-help">多个关键词用空格分隔；关键词、二级查询条件同时生效。</p>
-        </div>
-      </form>
-      <section class="results-panel" aria-label="查询结果">
+          <div class="filter-line">
+            <div class="filters" id="filters"></div>
+            <button class="text-button" id="clearBtn" type="button" hidden>清除筛选</button>
+          </div>
+        </form>
+        <p class="search-note" id="snapshot">正在读取公开数据…</p>
+      </section>
+
+      <section class="results-panel" aria-labelledby="resultsHeading">
         <div class="results-toolbar">
-          <div class="sort-controls" role="group" aria-label="结果排序">
-            <button type="button" data-sort="id-asc" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg>登记号升序</button>
-            <button type="button" data-sort="id-desc" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg>登记号降序</button>
-            <button type="button" data-sort="status-asc" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M4 7l4-4 4 4"/></svg>试验状态升序</button>
-            <button type="button" data-sort="status-desc" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg>试验状态降序</button>
-          </div>
-          <div class="utility-controls">
-            <button class="text-button" id="clearBtn" type="button" hidden>清除条件</button>
-            <button class="utility-button" id="downloadBtn" type="button" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8M5 7l3 3 3-3M3 11v3h10v-3"/></svg>下载结果</button>
-            <button class="utility-button" id="printBtn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6V2h8v4M4 12H2V6h12v6h-2M4 10h8v4H4z"/></svg>打印本页</button>
+          <div class="results-intro"><h2 id="resultsHeading" tabindex="-1">研究一览</h2><p id="count" role="status">正在为你整理研究信息…</p></div>
+          <div class="result-actions">
+            <label class="sort-label" for="sortSelect"><span class="sr-only">排序方式</span><select id="sortSelect"><option value="id-desc">最新登记</option><option value="id-asc">最早登记</option></select></label>
+            <button class="export-button" id="downloadBtn" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg>导出结果</button>
           </div>
         </div>
-        <p id="count" class="sr-only" role="status">索引尚未就绪</p>
-        <p class="table-hint">表格可左右滑动，点击登记号查看详情。</p>
-        <div class="table-scroll" role="region" aria-label="试验结果表格，可横向滚动" tabindex="0">
+        <div class="table-wrap">
           <table class="search-table">
-            <caption class="sr-only">临床试验查询结果</caption>
-            <colgroup><col class="col-no"><col class="col-id"><col class="col-status"><col class="col-drug"><col class="col-ind"><col class="col-title"></colgroup>
-            <thead><tr><th scope="col">序号</th><th scope="col">登记号</th><th scope="col">试验状态</th><th scope="col">药物名称</th><th scope="col">适应症</th><th scope="col">试验通俗题目</th></tr></thead>
-            <tbody id="results"><tr><td colspan="6" class="table-message">正在读取查询索引…</td></tr></tbody>
+            <caption class="sr-only">临床试验查询结果，点击研究项目查看详情</caption>
+            <colgroup><col class="col-project"><col class="col-ind"><col class="col-phase"><col class="col-status"></colgroup>
+            <thead><tr><th scope="col">研究项目</th><th scope="col">适应症</th><th scope="col">试验阶段</th><th scope="col">招募状态</th></tr></thead>
+            <tbody id="results"><tr><td colspan="4" class="table-message">正在读取研究索引…</td></tr></tbody>
           </table>
         </div>
         <div id="pagination" class="pagination-bar"></div>
       </section>
     </section>
+
     <article id="detailView" class="detail-view" aria-label="试验登记详情" hidden>
       <div class="detail-toolbar">
-        <button class="plain-button" id="backBtn" type="button">返回查询结果</button>
-        <div class="detail-actions"><button class="plain-button" id="copyBtn" type="button">复制本条链接</button><button class="utility-button" id="detailPrintBtn" type="button">打印详情</button></div>
+        <button class="back-button" id="backBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5m6-6-6 6 6 6"/></svg>返回研究一览</button>
+        <span class="detail-location" id="breadcrumbCurrent">试验详情</span>
+        <button class="export-button" id="copyBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3h12v14h-4M3 7h14v14H3z"/></svg><span>复制链接</span></button>
       </div>
       <div id="detail" aria-live="polite"></div>
     </article>
   </main>
-  <footer class="site-footer">
-    <p>进行中药物临床试验 · 公开数据检索快照</p>
-    <p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">药物临床试验登记与信息公示平台</a>。最新试验信息请以原站公示为准。</p>
+
+  <footer class="site-footer shell" id="about">
+    <div><a class="footer-name" href="./">临床试验检索</a><p>让公开信息，更容易被看见。</p></div>
+    <div class="footer-source"><p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">药物临床试验登记与信息公示平台<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 3h7v7M17 3l-8 8"/></svg></a></p><p>本页为公开数据快照，最新状态请以原站公示为准。轮播图为 AI 概念视觉。</p></div>
   </footer>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

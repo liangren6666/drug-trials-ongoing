@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-13T15:10:14Z",
+  "title": "Design System: 临床试验检索",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "displayName": "玉绿",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.11509 163.54)",
+          "oklch(26% 0.11509 163.54)",
+          "oklch(38% 0.11509 163.54)",
+          "oklch(49% 0.11509 163.54)",
+          "oklch(61% 0.11509 163.54)",
+          "oklch(72% 0.11509 163.54)",
+          "oklch(84% 0.11509 163.54)",
+          "oklch(95% 0.11509 163.54)"
+        ]
+      },
+      "brand-deep": {
+        "displayName": "深叶绿",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.08395 164.63)",
+          "oklch(26% 0.08395 164.63)",
+          "oklch(38% 0.08395 164.63)",
+          "oklch(49% 0.08395 164.63)",
+          "oklch(61% 0.08395 164.63)",
+          "oklch(72% 0.08395 164.63)",
+          "oklch(84% 0.08395 164.63)",
+          "oklch(95% 0.08395 164.63)"
+        ]
+      },
+      "brand-ink": {
+        "displayName": "林荫墨绿",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.05405 162.45)",
+          "oklch(26% 0.05405 162.45)",
+          "oklch(38% 0.05405 162.45)",
+          "oklch(49% 0.05405 162.45)",
+          "oklch(61% 0.05405 162.45)",
+          "oklch(72% 0.05405 162.45)",
+          "oklch(84% 0.05405 162.45)",
+          "oklch(95% 0.05405 162.45)"
+        ]
+      },
+      "paper": {
+        "displayName": "暖白纸面",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.00660 106.52)",
+          "oklch(26% 0.00660 106.52)",
+          "oklch(38% 0.00660 106.52)",
+          "oklch(49% 0.00660 106.52)",
+          "oklch(61% 0.00660 106.52)",
+          "oklch(72% 0.00660 106.52)",
+          "oklch(84% 0.00660 106.52)",
+          "oklch(95% 0.00660 106.52)"
+        ]
+      },
+      "surface": {
+        "displayName": "纯白信息面",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.00000 0.00)",
+          "oklch(26% 0.00000 0.00)",
+          "oklch(38% 0.00000 0.00)",
+          "oklch(49% 0.00000 0.00)",
+          "oklch(61% 0.00000 0.00)",
+          "oklch(72% 0.00000 0.00)",
+          "oklch(84% 0.00000 0.00)",
+          "oklch(95% 0.00000 0.00)"
+        ]
+      },
+      "ink": {
+        "displayName": "研究墨色",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.03432 158.73)",
+          "oklch(26% 0.03432 158.73)",
+          "oklch(38% 0.03432 158.73)",
+          "oklch(49% 0.03432 158.73)",
+          "oklch(61% 0.03432 158.73)",
+          "oklch(72% 0.03432 158.73)",
+          "oklch(84% 0.03432 158.73)",
+          "oklch(95% 0.03432 158.73)"
+        ]
+      },
+      "muted": {
+        "displayName": "灰绿说明色",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.02654 157.01)",
+          "oklch(26% 0.02654 157.01)",
+          "oklch(38% 0.02654 157.01)",
+          "oklch(49% 0.02654 157.01)",
+          "oklch(61% 0.02654 157.01)",
+          "oklch(72% 0.02654 157.01)",
+          "oklch(84% 0.02654 157.01)",
+          "oklch(95% 0.02654 157.01)"
+        ]
+      },
+      "line": {
+        "displayName": "纸面细线",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.01270 149.24)",
+          "oklch(26% 0.01270 149.24)",
+          "oklch(38% 0.01270 149.24)",
+          "oklch(49% 0.01270 149.24)",
+          "oklch(61% 0.01270 149.24)",
+          "oklch(72% 0.01270 149.24)",
+          "oklch(84% 0.01270 149.24)",
+          "oklch(95% 0.01270 149.24)"
+        ]
+      },
+      "control-line": {
+        "displayName": "控件焦点线",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.04015 158.45)",
+          "oklch(26% 0.04015 158.45)",
+          "oklch(38% 0.04015 158.45)",
+          "oklch(49% 0.04015 158.45)",
+          "oklch(61% 0.04015 158.45)",
+          "oklch(72% 0.04015 158.45)",
+          "oklch(84% 0.04015 158.45)",
+          "oklch(95% 0.04015 158.45)"
+        ]
+      },
+      "action-hover": {
+        "displayName": "动作深绿",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.06505 165.98)",
+          "oklch(26% 0.06505 165.98)",
+          "oklch(38% 0.06505 165.98)",
+          "oklch(49% 0.06505 165.98)",
+          "oklch(61% 0.06505 165.98)",
+          "oklch(72% 0.06505 165.98)",
+          "oklch(84% 0.06505 165.98)",
+          "oklch(95% 0.06505 165.98)"
+        ]
+      },
+      "table-tint": {
+        "displayName": "表格浅绿",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.01017 145.50)",
+          "oklch(26% 0.01017 145.50)",
+          "oklch(38% 0.01017 145.50)",
+          "oklch(49% 0.01017 145.50)",
+          "oklch(61% 0.01017 145.50)",
+          "oklch(72% 0.01017 145.50)",
+          "oklch(84% 0.01017 145.50)",
+          "oklch(95% 0.01017 145.50)"
+        ]
+      },
+      "select-line": {
+        "displayName": "选择器描边",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.03060 156.40)",
+          "oklch(26% 0.03060 156.40)",
+          "oklch(38% 0.03060 156.40)",
+          "oklch(49% 0.03060 156.40)",
+          "oklch(61% 0.03060 156.40)",
+          "oklch(72% 0.03060 156.40)",
+          "oklch(84% 0.03060 156.40)",
+          "oklch(95% 0.03060 156.40)"
+        ]
+      },
+      "recruit-ink": {
+        "displayName": "招募绿文字",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.07806 160.38)",
+          "oklch(26% 0.07806 160.38)",
+          "oklch(38% 0.07806 160.38)",
+          "oklch(49% 0.07806 160.38)",
+          "oklch(61% 0.07806 160.38)",
+          "oklch(72% 0.07806 160.38)",
+          "oklch(84% 0.07806 160.38)",
+          "oklch(95% 0.07806 160.38)"
+        ]
+      },
+      "recruit-fill": {
+        "displayName": "招募绿底",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15% 0.01574 154.47)",
+          "oklch(26% 0.01574 154.47)",
+          "oklch(38% 0.01574 154.47)",
+          "oklch(49% 0.01574 154.47)",
+          "oklch(61% 0.01574 154.47)",
+          "oklch(72% 0.01574 154.47)",
+          "oklch(84% 0.01574 154.47)",
+          "oklch(95% 0.01574 154.47)"
+        ]
+      },
+      "pending-ink": {
+        "displayName": "等待麦色文字",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15% 0.06702 87.92)",
+          "oklch(26% 0.06702 87.92)",
+          "oklch(38% 0.06702 87.92)",
+          "oklch(49% 0.06702 87.92)",
+          "oklch(61% 0.06702 87.92)",
+          "oklch(72% 0.06702 87.92)",
+          "oklch(84% 0.06702 87.92)",
+          "oklch(95% 0.06702 87.92)"
+        ]
+      },
+      "pending-fill": {
+        "displayName": "等待麦色底",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15% 0.02462 91.61)",
+          "oklch(26% 0.02462 91.61)",
+          "oklch(38% 0.02462 91.61)",
+          "oklch(49% 0.02462 91.61)",
+          "oklch(61% 0.02462 91.61)",
+          "oklch(72% 0.02462 91.61)",
+          "oklch(84% 0.02462 91.61)",
+          "oklch(95% 0.02462 91.61)"
+        ]
+      },
+      "complete-ink": {
+        "displayName": "灰绿状态文字",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.03071 158.72)",
+          "oklch(26% 0.03071 158.72)",
+          "oklch(38% 0.03071 158.72)",
+          "oklch(49% 0.03071 158.72)",
+          "oklch(61% 0.03071 158.72)",
+          "oklch(72% 0.03071 158.72)",
+          "oklch(84% 0.03071 158.72)",
+          "oklch(95% 0.03071 158.72)"
+        ]
+      },
+      "complete-fill": {
+        "displayName": "灰绿状态底",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15% 0.00679 145.52)",
+          "oklch(26% 0.00679 145.52)",
+          "oklch(38% 0.00679 145.52)",
+          "oklch(49% 0.00679 145.52)",
+          "oklch(61% 0.00679 145.52)",
+          "oklch(72% 0.00679 145.52)",
+          "oklch(84% 0.00679 145.52)",
+          "oklch(95% 0.00679 145.52)"
+        ]
+      },
+      "error": {
+        "displayName": "错误陶红",
+        "role": "tertiary",
+        "tonalRamp": [
+          "oklch(15% 0.13367 35.17)",
+          "oklch(26% 0.13367 35.17)",
+          "oklch(38% 0.13367 35.17)",
+          "oklch(49% 0.13367 35.17)",
+          "oklch(61% 0.13367 35.17)",
+          "oklch(72% 0.13367 35.17)",
+          "oklch(84% 0.13367 35.17)",
+          "oklch(95% 0.13367 35.17)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "display",
+        "purpose": "首页桌面展示标题。"
+      },
+      "display-compact": {
+        "displayName": "display-compact",
+        "purpose": "760px 及以下的首页展示标题。"
+      },
+      "headline": {
+        "displayName": "headline",
+        "purpose": "详情标题。"
+      },
+      "title": {
+        "displayName": "title",
+        "purpose": "研究一览标题。"
+      },
+      "item-title": {
+        "displayName": "item-title",
+        "purpose": "研究项目链接。"
+      },
+      "body": {
+        "displayName": "body",
+        "purpose": "全局基础正文。"
+      },
+      "search": {
+        "displayName": "search",
+        "purpose": "关键词输入。"
+      },
+      "nav": {
+        "displayName": "nav",
+        "purpose": "桌面页头导航。"
+      },
+      "action": {
+        "displayName": "action",
+        "purpose": "主要搜索按钮。"
+      },
+      "label": {
+        "displayName": "label",
+        "purpose": "筛选、状态与辅助信息。"
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-editorial",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "轮播淡入与页点长度变化。"
+      },
+      {
+        "name": "carousel-fade",
+        "value": "800ms",
+        "purpose": "幻灯片透明度与可见性切换。"
+      },
+      {
+        "name": "carousel-dot-resize",
+        "value": "300ms",
+        "purpose": "当前页点伸展为短条。"
+      },
+      {
+        "name": "carousel-interval",
+        "value": "6500ms",
+        "purpose": "仅在列表显示、页面可见且未暂停、未悬停、未聚焦时计时。"
+      },
+      {
+        "name": "reduced-motion-duration",
+        "value": "0.01ms",
+        "purpose": "减少动态效果偏好下的过渡与动画；轮播默认暂停且关闭平滑滚动。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "760px"
+      },
+      {
+        "name": "compact",
+        "value": "1100px"
+      },
+      {
+        "name": "wide",
+        "value": "1700px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "主要搜索按钮",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "深绿主动作，使用真实的悬停与键盘焦点处理。",
+      "html": "<button class=\"ds-primary\" type=\"button\">搜索试验<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-primary{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);display:inline-flex;align-items:center;justify-content:center;gap:19px;min-height:48px;padding:11px 23px;border:1px solid var(--brand-deep,#236b50);border-radius:10px;background:var(--brand-deep,#236b50);color:var(--surface,#fff);font-size:14px;font-weight:500;line-height:1.7;cursor:pointer}.ds-primary svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;}.ds-primary:hover{background:#194e3b;border-color:#194e3b}.ds-primary:focus-visible{outline:2px solid var(--brand-deep,#236b50);outline-offset:4px;}.ds-primary:disabled{opacity:.45;cursor:default}@media(max-width:760px){.ds-primary{width:100%;min-height:44px;padding:8px 16px;border-radius:8px}}"
+    },
+    {
+      "name": "文字动作",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "导出、返回和复制共用的轻量文字动作；示例为导出。",
+      "html": "<button class=\"ds-text-action\" type=\"button\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5\"/></svg>导出结果</button>",
+      "css": ".ds-text-action{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:transparent;padding:8px 0;min-height:40px;color:var(--brand-deep,#236b50);font-size:12px;line-height:1.7;cursor:pointer}.ds-text-action svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;}.ds-text-action:hover{text-decoration:underline;text-underline-offset:4px}.ds-text-action:focus-visible{outline:2px solid var(--brand-deep,#236b50);outline-offset:4px;}.ds-text-action:disabled{opacity:.45;cursor:default}"
+    },
+    {
+      "name": "关键词输入",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "输入框的键盘焦点通过父级边界与底线表达。",
+      "html": "<div class=\"ds-field-panel\"><div class=\"ds-search-line\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 4.5 4.5\"/></svg><input class=\"ds-search-input\" type=\"search\" aria-label=\"关键词\" placeholder=\"搜索药物、适应症、试验题目或登记号\"></div></div>",
+      "css": ".ds-field-panel{background:var(--surface,#fff);border:1px solid var(--line,#dde5de);border-radius:16px;padding:22px 26px 18px}.ds-field-panel:focus-within{border-color:var(--control-line,#7f9b8a)}.ds-search-line{display:flex;align-items:center;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--line,#dde5de)}.ds-search-line svg{width:23px;height:23px;color:var(--brand-deep,#236b50);fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;}.ds-search-input{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);border:0;background:transparent;color:var(--ink,#253a2e);min-width:0;flex:1;height:48px;padding:0 4px;font-size:16px;line-height:1.7;caret-color:var(--brand-deep,#236b50)}.ds-search-input::placeholder{color:#657569;opacity:1}.ds-search-input:focus-visible{outline:0}.ds-search-line:has(.ds-search-input:focus-visible){border-bottom-color:var(--brand-deep,#236b50)}@media(max-width:760px){.ds-field-panel{padding:16px;border-radius:12px}.ds-search-input{height:40px}}"
+    },
+    {
+      "name": "原生筛选",
+      "kind": "input",
+      "refersTo": "filter-select",
+      "description": "原生 select，选项用于展示控件语言。",
+      "html": "<span class=\"ds-select-wrap\"><select class=\"ds-select\" aria-label=\"试验分期\"><option>全部试验分期</option><option>I期</option><option>II期</option><option>III期</option></select><svg viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"m3 4.5 3 3 3-3\"/></svg></span>",
+      "css": ".ds-select-wrap{position:relative;display:inline-block}.ds-select{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);appearance:none;border:1px solid #9db2a4;border-radius:8px;padding:8px 32px 8px 12px;background:var(--surface,#fff);color:var(--ink,#253a2e);max-width:250px;min-height:38px;font-size:12px;line-height:1.7;text-overflow:ellipsis;cursor:pointer}.ds-select-wrap svg{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:12px;height:12px;pointer-events:none;fill:none;stroke:#435e4d;stroke-width:1.4}.ds-select:hover{background-color:#f5f9f6}.ds-select:focus-visible{outline:2px solid var(--brand-deep,#236b50);outline-offset:4px;}@media(max-width:760px){.ds-select{font-size:13px;min-height:40px;padding-left:10px}}"
+    },
+    {
+      "name": "轻量导航",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "当前入口深绿，悬停改变文字颜色并出现下划线。",
+      "html": "<nav class=\"ds-nav\" aria-label=\"主导航\"><a class=\"ds-nav-current\" href=\"#trials\">探索试验</a><a href=\"#about\">数据说明</a></nav>",
+      "css": ".ds-nav{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);display:flex;gap:32px;font-size:14px;line-height:1.7}.ds-nav a{text-decoration:none;padding:10px 0;color:var(--muted,#607166);text-underline-offset:4px}.ds-nav .ds-nav-current{color:var(--brand-deep,#236b50)}.ds-nav a:hover{color:var(--brand-deep,#236b50);text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid var(--brand-deep,#236b50);outline-offset:4px;}@media(max-width:760px){.ds-nav{gap:17px;font-size:12px}.ds-nav a:last-child{display:none}}"
+    },
+    {
+      "name": "招募状态标签",
+      "kind": "chip",
+      "refersTo": "recruit-tag",
+      "description": "只读文字标签；灰绿覆盖其他状态，含义以文字为准。",
+      "html": "<div class=\"ds-tags\"><span class=\"ds-tag\">招募中</span><span class=\"ds-tag ds-tag-pending\">尚未招募</span><span class=\"ds-tag ds-tag-other\">已完成</span></div>",
+      "css": ".ds-tags{display:flex;flex-wrap:wrap;gap:8px}.ds-tag{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);display:inline-block;padding:3px 10px;border-radius:5px;color:#256145;background:#e8f3eb;font-size:12px;line-height:1.7;white-space:nowrap}.ds-tag-pending{color:#6b592c;background:#f6f0de}.ds-tag-other{color:#53675b;background:#edf1ed}"
+    },
+    {
+      "name": "白色搜索信息面",
+      "kind": "card",
+      "refersTo": "search-surface",
+      "description": "搜索容器的平面材质、细边框与说明层级；示例文字为字段占位。",
+      "html": "<section class=\"ds-card\" aria-label=\"搜索容器样例\"><p class=\"ds-card-line\">关键词与直接筛选</p><p class=\"ds-card-note\">公开数据快照 · 试验状态以原站公示为准</p></section>",
+      "css": ".ds-card{font-family:var(--sans,\"Research Sans\",\"Noto Sans SC\",\"Microsoft YaHei\",\"PingFang SC\",sans-serif);background:var(--surface,#fff);color:var(--ink,#253a2e);border:1px solid var(--line,#dde5de);border-radius:16px;padding:22px 26px 18px}.ds-card:focus-within{border-color:var(--control-line,#7f9b8a)}.ds-card-line{margin:0;padding-bottom:18px;border-bottom:1px solid var(--line,#dde5de);font-size:16px;line-height:1.7}.ds-card-note{margin:14px 0 0;color:var(--muted,#607166);font-size:11px;line-height:1.7}@media(max-width:760px){.ds-card{padding:16px;border-radius:12px}.ds-card-note{line-height:1.8}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "研究基金会年刊",
+    "overview": "以暖白纸面、玉绿色和中文衬线标题建立研究刊物的阅读气质，再以无衬线正文、原生选择器、清晰边界和稳定的列表层级承载检索。“温和、克制、编辑感”是对已实现界面的描述性归纳，不是新增的用户承诺。用户指定的主色是品牌约束；具体首页构图与功能取舍记录在[检索表面简报](.impeccable/surfaces/trial-search.md)。\n\n本文件从当前 HTML、CSS 与 JavaScript 提取；前置 YAML 是基础令牌的规范层，侧文件承载状态样例、动态与断点。当前界面直接以代码实现，没有获批的 UI 效果图。AI 科学与自然图片属于编辑性概念视觉，不能充当真实试验、机构或临床效果的证据。",
+    "keyCharacteristics": [
+      "暖白底与白色信息面，以细线和浅色块划分内容。",
+      "衬线大标题与无衬线操作正文形成层级。",
+      "玉绿用于品牌强调，深绿用于动作、焦点与当前状态。",
+      "研究列表具有足够留白，详情长文保留清晰的标签与内容关系。",
+      "动态集中于科学主题轮播，并尊重暂停与减少动态效果偏好。"
+    ],
+    "rules": [
+      {
+        "name": "The Action Contrast Rule",
+        "body": "白色小字动作使用深叶绿；玉绿保留为品牌强调，不替换当前主要按钮的深绿底。",
+        "section": "colors"
+      },
+      {
+        "name": "The Reading Hierarchy Rule",
+        "body": "衬线字体留给展示性标题；表单、研究结果和长篇登记详情保持无衬线层级。",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper Layers Rule",
+        "body": "以色面、细线和间距建立当前系统的层次；延续组件时不额外添加浮起阴影。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** 保留玉绿品牌强调与深绿动作的角色分工。",
+      "**Do** 使用自托管的衬线展示标题和无衬线操作正文。",
+      "**Do** 通过白色信息面、浅色标签、细线与留白建立层次。",
+      "**Do** 保持状态文字、键盘焦点和减少动态效果处理可感知。",
+      "**Do** 将 AI 科学图片清楚标识为概念视觉。"
+    ],
+    "donts": [
+      "**Don't** 把尚未招募、其他状态或加载失败仅用颜色表达。",
+      "**Don't** 在当前平面组件上添加浮起阴影或玻璃模糊。",
+      "**Don't** 将科学概念图表达为具体试验、机构或临床效果的证据。",
+      "**Don't** 在扩展检索表面时恢复已移除的站外业务导航、重复查询和重复排序动作。"
+    ]
+  }
+}
