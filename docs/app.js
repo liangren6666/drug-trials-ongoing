@@ -142,7 +142,7 @@ function showList(focus = false) {
   listView.hidden = false;
   detailView.hidden = true;
   document.querySelector("#breadcrumbCurrent").textContent = "查询结果";
-  document.title = "临床试验检索 · 让研究更清晰可见";
+  document.title = "国家药监局公开公示信息";
   history.replaceState(null, "", location.pathname + location.search);
   updateCarouselTimer();
   if (focus) {
@@ -475,7 +475,7 @@ downloadBtn.addEventListener("click", () => {
   const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = `临床试验_查询结果_${state.meta.snapshot}.csv`;
+  link.download = `公示信息_查询结果_${state.meta.snapshot}.csv`;
   link.click();
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 });

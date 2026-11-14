@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="更清晰地探索药物临床试验公开信息。按药物、适应症、分期和招募状态检索研究，查看完整登记详情。">
+  <meta name="description" content="查阅国家药监局公开公示信息。按药物、适应症、分期和招募状态检索，查看完整登记详情。">
   <meta name="theme-color" content="#349E75">
-  <title>临床试验检索 · 让研究更清晰可见</title>
+  <title>国家药监局公开公示信息</title>
   <link rel="preload" href="assets/fonts/noto-serif-sc-display.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/images/research-glass.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="app.css?v=7">
+  <link rel="stylesheet" href="app.css?v=8">
 </head>
 <body>
   <a class="skip-link" href="#trials">跳转到试验检索</a>
   <header class="site-header">
     <div class="header-inner shell">
-      <a class="brand" href="./" aria-label="临床试验检索首页">
+      <a class="brand" href="./" aria-label="公示信息检索首页">
         <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="12" fill="currentColor"/><path d="M12 26V15m8 11V11m8 15v-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="12" r="1.5" fill="#fff"/><circle cx="28" cy="15" r="1.5" fill="#fff"/></svg>
-        <span>临床试验<span class="brand-light">检索</span></span>
+        <span>公示信息<span class="brand-light">检索</span></span>
       </a>
       <nav class="main-nav" aria-label="主导航">
         <a href="#trials" class="nav-current">探索试验</a>
@@ -27,11 +27,11 @@
   </header>
 
   <main id="main" class="shell">
-    <section id="listView" aria-label="临床试验探索">
+    <section id="listView" aria-label="公示信息探索">
       <section class="hero" aria-label="临床研究介绍">
         <div class="hero-copy">
           <h1>让临床研究，<br><span>更清晰可见。</span></h1>
-          <p class="hero-description">每一项研究，都是探索的开始。<br>在公开的药物临床试验中，找到你关注的方向。</p>
+          <p class="hero-description">每一项研究，都是探索的开始。<br>在国家药监局公开公示信息中，找到你关注的方向。</p>
           <div class="hero-source"><span class="source-rule"></span><p id="snapshot">正在读取公开数据…</p></div>
         </div>
         <div class="hero-carousel" role="region" aria-roledescription="轮播图" aria-label="科学与生命主题视觉">
@@ -85,7 +85,7 @@
         </div>
         <div class="table-wrap">
           <table class="search-table">
-            <caption class="sr-only">临床试验查询结果，点击研究项目查看详情</caption>
+            <caption class="sr-only">公示信息查询结果，点击研究项目查看详情</caption>
             <colgroup><col class="col-project"><col class="col-ind"><col class="col-phase"><col class="col-status"></colgroup>
             <thead><tr><th scope="col">研究项目</th><th scope="col">适应症</th><th scope="col">试验阶段</th><th scope="col">招募状态</th></tr></thead>
             <tbody id="results"><tr><td colspan="4" class="table-message">正在读取研究索引…</td></tr></tbody>
@@ -106,9 +106,9 @@
   </main>
 
   <footer class="site-footer shell" id="about">
-    <div><a class="footer-name" href="./">临床试验检索</a><p>让公开信息，更容易被看见。</p></div>
-    <div class="footer-source"><p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">药物临床试验登记与信息公示平台<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 3h7v7M17 3l-8 8"/></svg></a></p><p>本页为公开数据快照，最新状态请以原站公示为准。轮播图为 AI 概念视觉。</p></div>
+    <div><a class="footer-name" href="./">公示信息检索</a><p>让公开信息，更容易被看见。</p></div>
+    <div class="footer-source"><p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">国家药监局公开公示信息<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 3h7v7M17 3l-8 8"/></svg></a></p><p>本页为公开数据快照，最新状态请以原站公示为准。轮播图为 AI 概念视觉。</p></div>
   </footer>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>
