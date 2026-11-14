@@ -24,31 +24,31 @@ colors:
 typography:
   display:
     fontFamily: '"Research Serif", "Noto Serif SC", "Songti SC", serif'
-    fontSize: "clamp(40px, 3.5vw, 52px)"
+    fontSize: "40px"
     fontWeight: 500
     lineHeight: 1.35
     letterSpacing: "-.025em"
   display-compact:
     fontFamily: '"Research Serif", "Noto Serif SC", "Songti SC", serif'
-    fontSize: "clamp(32px, 8vw, 40px)"
+    fontSize: "30px"
     fontWeight: 500
     lineHeight: 1.35
     letterSpacing: "-.025em"
   headline:
     fontFamily: '"Research Sans", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif'
-    fontSize: "28px"
+    fontSize: "24px"
     fontWeight: 500
     lineHeight: 1.65
     letterSpacing: "-.02em"
   title:
     fontFamily: '"Research Sans", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif'
-    fontSize: "24px"
+    fontSize: "20px"
     fontWeight: 500
     lineHeight: 1.7
     letterSpacing: "-.025em"
   item-title:
     fontFamily: '"Research Sans", "Noto Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif'
-    fontSize: "17px"
+    fontSize: "16px"
     fontWeight: 500
     lineHeight: 1.6
   body:
@@ -232,10 +232,10 @@ components:
 
 ### Hierarchy
 
-- **Display / Display compact**：首页两行标题，使用前置令牌中的响应字号；中间宽度（不超过 1100px）固定为 43px，手机（不超过 760px）使用 compact 角色。
-- **Headline**：详情标题；手机缩为 22px，行高为 1.7。
-- **Title**：研究一览标题；手机为 23px。详情分组标题为 19px、中等字重。
-- **Item title**：研究项目链接；下方试验题目为 13px、行高 1.8，限制为两行，完整内容可进入详情阅读。
+- **Display / Display compact**：首页两行标题，使用前置令牌中的响应字号；中间宽度（不超过 1100px）固定为 36px，手机（不超过 760px）使用 compact 角色。
+- **Headline**：详情标题；手机缩为 21px，行高为 1.7。
+- **Title**：研究一览标题；手机为 20px。详情分组标题为 18px、中等字重。
+- **Item title**：研究项目链接；下方试验题目为 13px、行高 1.65，限制为两行，完整内容可进入详情阅读。
 - **Body**：基础正文。详情字段内容为 14px，长文行高为 1.9，段落宽度不超过 75ch；手机字段为 13px。
 - **Search / Nav / Action / Label**：搜索输入、导航、主要动作与辅助信息分别使用其令牌。登记号、数量、页码和数据日期使用等宽数字排布（`tabular-nums`）。
 
@@ -247,7 +247,7 @@ components:
 
 当前首页的桌面实例为紧凑两列介绍区：文字与轮播的比例为 1.15:0.85、间距为 48px，搜索面板紧随其后。轮播图默认高度为 248px，中间宽度为 232px，1700px 及以上为 268px。快照信息放在介绍文字下方，搜索面板仅保留输入与筛选；研究区与搜索面板相隔 24px，工具栏下距 12px。桌面表格四列占比为 43%、27%、15%、15%，单元格内边距为纵向 16px、横向 24px。默认数据在 1440×900 视口首屏完整露出前两条研究，展示内容服务检索任务。
 
-手机将介绍区改为单列，轮播使用 1.9 的宽高比；搜索按钮占满一行，四个直接筛选排为两列。结果仍由同一语义表格提供，视觉上转为纵向研究条目：项目与适应症各占整行，阶段与招募状态在底部左右对齐。表头不再显示，适应症补充可见字段名。此实现以重排承载窄屏阅读，不需要桌面列表横向滚动。
+手机将介绍区改为单列，轮播使用 2.5 的宽高比；搜索按钮占满一行，四个直接筛选排为两列。结果仍由同一语义表格提供，视觉上转为纵向研究条目：项目与适应症各占整行，阶段与招募状态在底部左右对齐。表头不再显示，适应症补充可见字段名。此实现以重排承载窄屏阅读，不需要桌面列表横向滚动。
 
 详情为独立内容视图，共用内容壳与页脚。字段标签列默认宽 190px，内容列可伸缩；手机改为上下堆叠。长文、编号标准、药物字段和终点表格各保留真实内容需要的结构。常用间距见前置令牌；这些数值来自现有声明，并非要求所有间距强制落在单一倍数网格上。
 
@@ -311,3 +311,5 @@ components:
 - **Don't** 在扩展检索表面时恢复已移除的站外业务导航、重复查询和重复排序动作。
 
 本次布局收紧保留既有视觉世界：桌面页头高度 76px、手机 68px；手机介绍区上下留白为 20px、图片比例为 2.5，搜索面板内边距 12px，触控控件维持原有可用尺寸。
+
+字号采用更克制的层级：桌面展示标题 40px、中屏 36px、手机 30px；品牌 19px（手机 17px），区块标题 20px，研究名称 16px，详情标题 24px（手机 21px），分组标题 18px。输入、按钮、正文和数据字号维持可读尺寸，控件触控区域不随字号缩小。

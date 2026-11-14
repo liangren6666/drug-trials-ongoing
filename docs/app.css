@@ -41,8 +41,8 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .skip-link:focus { top: 12px; }
 .site-header { border-bottom: 1px solid var(--line); }
 .header-inner { min-height: 76px; display: flex; align-items: center; gap: 64px; }
-.brand { display: inline-flex; align-items: center; gap: 13px; font-size: 21px; font-weight: 600; letter-spacing: .025em; text-decoration: none; white-space: nowrap; }
-.brand-mark { width: 39px; height: 39px; color: var(--brand); stroke: none; }
+.brand { display: inline-flex; align-items: center; gap: 13px; font-size: 19px; font-weight: 600; letter-spacing: .025em; text-decoration: none; white-space: nowrap; }
+.brand-mark { width: 36px; height: 36px; color: var(--brand); stroke: none; }
 .brand-light { font-weight: 400; margin-left: 4px; }
 .main-nav { display: flex; gap: 32px; font-size: 14px; }
 .main-nav a { text-decoration: none; padding: 10px 0; color: var(--muted); }
@@ -50,7 +50,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .main-nav a:hover { color: var(--brand-deep); text-decoration: underline; }
 .header-note { margin-left: auto; color: var(--muted); font-size: 12px; letter-spacing: .05em; }
 .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding: 16px 0 20px; }
-.hero-copy h1 { margin: 0 0 16px; font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 3.5vw, 52px); line-height: 1.35; letter-spacing: -.025em; }
+.hero-copy h1 { margin: 0 0 16px; font-family: var(--serif); font-weight: 500; font-size: 40px; line-height: 1.35; letter-spacing: -.025em; }
 .hero-copy h1 span { color: var(--brand); }
 .hero-description { margin: 0; font-size: 14px; line-height: 1.85; color: var(--muted); }
 .hero-link { display: inline-flex; gap: 16px; align-items: center; margin-top: 24px; color: var(--brand-deep); font-weight: 500; font-size: 14px; text-decoration: none; }
@@ -93,7 +93,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .results-panel { margin-top: 24px; }
 .results-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 12px; }
 .results-intro { display: flex; align-items: baseline; gap: 18px; }
-.results-intro h2 { margin: 0; font-size: 24px; font-weight: 500; letter-spacing: -.025em; }
+.results-intro h2 { margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -.025em; }
 .results-intro p { margin: 0; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .result-actions { display: flex; align-items: center; gap: 20px; }
 .sort-label select { border: 0; background-color: transparent; padding-left: 0; font-size: 12px; }
@@ -110,7 +110,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .search-table td { padding: 16px 24px; font-size: 13px; border-top: 1px solid #e6ece6; vertical-align: top; overflow-wrap: anywhere; }
 .search-table tbody tr { background: #fff; }
 .search-table tbody tr:hover { background: #fbfcf9; }
-.result-link { font-size: 17px; line-height: 1.6; font-weight: 500; color: var(--ink); text-decoration: none; }
+.result-link { font-size: 16px; line-height: 1.6; font-weight: 500; color: var(--ink); text-decoration: none; }
 .result-link:hover { color: var(--brand-deep); text-decoration: underline; }
 .trial-title { margin: 4px 0 6px; font-size: 13px; line-height: 1.65; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .trial-id { font-size: 12px; color: #65796c; font-variant-numeric: tabular-nums; }
@@ -133,10 +133,10 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .detail-toolbar { display: flex; align-items: center; gap: 24px; padding: 0 0 20px; border-bottom: 1px solid var(--line); }
 .detail-toolbar .export-button { margin-left: auto; }
 .detail-location { color: var(--muted); font-size: 12px; }
-.detail-title { font-family: var(--sans); font-size: 28px; font-weight: 500; line-height: 1.65; max-width: 34em; margin: 32px 0 20px; letter-spacing: -.02em; }
+.detail-title { font-family: var(--sans); font-size: 24px; font-weight: 500; line-height: 1.65; max-width: 34em; margin: 32px 0 20px; letter-spacing: -.02em; }
 .detail-meta { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 0 0 36px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .group { margin-top: 32px; }
-.group h2 { margin: 0 0 16px; font-size: 19px; font-weight: 500; color: var(--brand-ink); }
+.group h2 { margin: 0 0 16px; font-size: 18px; font-weight: 500; color: var(--brand-ink); }
 .record-fields { margin: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .row { display: grid; grid-template-columns: 190px minmax(0,1fr); border-bottom: 1px solid var(--line); }
 .row:last-child { border-bottom: 0; }
@@ -173,7 +173,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 @media (max-width: 1100px) {
   .shell { width: calc(100% - 64px); }
   .hero { gap: 28px; }
-  .hero-copy h1 { font-size: 40px; }
+  .hero-copy h1 { font-size: 36px; }
   .carousel-slides { height: 232px; }
   .header-inner { gap: 44px; }
   .header-note { display: none; }
@@ -191,7 +191,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   .main-nav { gap: 17px; font-size: 12px; }
   .main-nav a:last-child { display: none; }
   .hero { grid-template-columns: 1fr; gap: 16px; padding: 20px 0; }
-  .hero-copy h1 { font-size: clamp(32px, 8vw, 40px); margin-bottom: 12px; line-height: 1.35; }
+  .hero-copy h1 { font-size: 30px; margin-bottom: 12px; line-height: 1.35; }
   .hero-description { font-size: 13px; line-height: 1.8; }
   .hero-link { margin-top: 18px; font-size: 13px; }
   .hero-source { margin-top: 12px; gap: 8px; }
@@ -215,7 +215,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   .results-panel { margin-top: 24px; }
   .results-toolbar { align-items: flex-start; gap: 8px; margin-bottom: 12px; }
   .results-intro { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
-  .results-intro h2 { font-size: 23px; margin-bottom: 0; }
+  .results-intro h2 { font-size: 20px; margin-bottom: 0; }
   .results-intro p { font-size: 11px; }
   .result-actions { width: 100%; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 6px; gap: 12px; }
   .export-button { min-height: 40px; }
@@ -227,7 +227,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   .search-table .project-cell { grid-column: 1 / -1; }
   .search-table .trial-indication { grid-column: 1 / -1; margin: 14px 0 18px; padding-bottom: 17px; border-bottom: 1px solid #e7ece4; font-size: 12px; }
   .trial-indication::before { content: "适应症"; color: var(--muted); font-size: 11px; margin-right: 12px; }
-  .result-link { font-size: 17px; }
+  .result-link { font-size: 16px; }
   .trial-title { font-size: 12px; margin-bottom: 8px; }
   .search-table .phase-cell { align-self: center; }
   .phase-label { font-size: 12px; }
@@ -243,7 +243,7 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
   .detail-toolbar { gap: 12px; }
   .detail-location { display: none; }
   .back-button, .detail-toolbar .export-button { font-size: 12px; }
-  .detail-title { font-size: 22px; line-height: 1.7; margin-top: 24px; }
+  .detail-title { font-size: 21px; line-height: 1.7; margin-top: 24px; }
   .detail-meta { gap: 6px 14px; font-size: 11px; margin-bottom: 28px; }
   .row, .drug-card .row { grid-template-columns: 1fr; }
   .row > dt { padding: 11px 14px; font-size: 12px; }
