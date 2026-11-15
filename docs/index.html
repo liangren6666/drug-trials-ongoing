@@ -3,24 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="查阅国家药监局公开公示信息。按药物、适应症、分期和招募状态检索，查看完整登记详情。">
+  <meta name="description" content="聚能信息，一站式公开信息检索工具，信息溯源清晰，检索简单高效。查阅国家药监局公开公示信息。">
   <meta name="theme-color" content="#349E75">
-  <title>国家药监局公开公示信息</title>
-  <link rel="preload" href="assets/fonts/noto-serif-sc-display.woff2" as="font" type="font/woff2" crossorigin>
+  <title>聚能信息 · 公开信息检索</title>
+  <link rel="preload" href="assets/fonts/noto-serif-sc-display.woff2?v=2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/images/research-glass.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="app.css?v=9">
+  <link rel="stylesheet" href="app.css?v=10">
 </head>
 <body>
   <a class="skip-link" href="#trials">跳转到试验检索</a>
   <header class="site-header">
     <div class="header-inner shell">
-      <a class="brand" href="./" aria-label="公示信息检索首页">
+      <a class="brand" href="./" aria-label="聚能信息首页">
         <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="12" fill="currentColor"/><path d="M12 26V15m8 11V11m8 15v-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="12" r="1.5" fill="#fff"/><circle cx="28" cy="15" r="1.5" fill="#fff"/></svg>
-        <span>公示信息<span class="brand-light">检索</span></span>
+        <span>聚能信息</span>
       </a>
       <nav class="main-nav" aria-label="主导航">
         <a href="#trials" class="nav-current">探索试验</a>
-        <a href="#about">数据说明</a>
+        <a href="#about" class="nav-data">数据说明</a>
+        <a href="disclaimer.html">免责协议</a>
       </nav>
       <span class="header-note">公开数据 · 自由探索</span>
     </div>
@@ -30,8 +31,8 @@
     <section id="listView" aria-label="公示信息探索">
       <section class="hero" aria-label="公示信息介绍">
         <div class="hero-copy">
-          <h1>让公示信息，<br><span>更清晰可见。</span></h1>
-          <p class="hero-description">按药物、适应症或登记号查阅。<br>这里汇集国家药监局公开公示信息。</p>
+          <h1>聚能信息，<br><span>您专业的数字化信息服务伙伴</span></h1>
+          <p class="hero-description">一站式公开信息检索工具，<br>信息溯源清晰，检索简单高效。</p>
           <div class="hero-source"><span class="source-rule"></span><p id="snapshot">正在读取公开数据…</p></div>
         </div>
         <div class="hero-carousel" role="region" aria-roledescription="轮播图" aria-label="科学与生命主题视觉">
@@ -106,9 +107,10 @@
   </main>
 
   <footer class="site-footer shell" id="about">
-    <div><a class="footer-name" href="./">公示信息检索</a><p>让公开信息，更容易被看见。</p></div>
-    <div class="footer-source"><p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">国家药监局公开公示信息<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 3h7v7M17 3l-8 8"/></svg></a></p><p>本页为公开数据快照，最新状态请以原站公示为准。轮播图为 AI 概念视觉。</p></div>
+    <div><a class="footer-name" href="./">聚能信息</a><p>一站式公开信息检索工具</p></div>
+    <div class="footer-source"><p>数据来源：<a href="https://www.chinadrugtrials.org.cn/clinicaltrials.searchlist.dhtml" target="_blank" rel="noopener noreferrer">国家药监局公开公示信息<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 4H4v12h12v-4M10 3h7v7M17 3l-8 8"/></svg></a></p><p>本页为公开数据快照，轮播图为 AI 概念视觉。</p></div>
+    <div class="footer-disclaimer"><p>免责声明：本平台为公开免费的信息检索工具，仅原样展示国家药监局官网公开公示信息，不提供任何其他服务，信息仅供查阅，相关内容以官方公示为准。</p><a href="disclaimer.html">查看完整免责协议</a></div>
   </footer>
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

@@ -142,7 +142,7 @@ function showList(focus = false) {
   listView.hidden = false;
   detailView.hidden = true;
   document.querySelector("#breadcrumbCurrent").textContent = "查询结果";
-  document.title = "国家药监局公开公示信息";
+  document.title = "聚能信息 · 公开信息检索";
   history.replaceState(null, "", location.pathname + location.search);
   updateCarouselTimer();
   if (focus) {
