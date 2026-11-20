@@ -508,7 +508,7 @@ function showSlide(index) {
 
 function updateCarouselTimer() {
   window.clearTimeout(carouselTimer);
-  if (!carouselPaused && !carouselHovered && !carouselFocused && !document.hidden && !listView.hidden) {
+  if (!carouselPaused && !carouselHovered && !carouselFocused && !document.hidden && !listView.hidden && !document.body.classList.contains("is-locked")) {
     carouselTimer = window.setTimeout(() => {
       showSlide((carouselIndex + 1) % slides.length);
       updateCarouselTimer();
@@ -546,4 +546,45 @@ reducedMotion.addEventListener("change", (event) => {
 });
 updateCarouselButton();
 updateCarouselTimer();
-main();
+
+const SESSION_KEY = "juneng-session";
+const USER_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
+const PASS_HASH = "8b3ce0c3977ee6e8d53efeb1fb5b4f82bfb85e44b706c4eded197bd78875da67";
+const loginForm = document.querySelector("#loginForm");
+const loginError = document.querySelector("#loginError");
+
+async function sha256(value) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+function startApp() {
+  document.body.classList.remove("is-locked");
+  updateCarouselTimer();
+  if (!state.meta) main();
+}
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  loginError.hidden = true;
+  const user = document.querySelector("#loginUser").value.trim();
+  const pass = document.querySelector("#loginPass").value;
+  const [userHash, passHash] = await Promise.all([sha256(user), sha256(pass)]);
+  if (userHash === USER_HASH && passHash === PASS_HASH) {
+    sessionStorage.setItem(SESSION_KEY, "1");
+    loginForm.reset();
+    startApp();
+  } else {
+    loginError.hidden = false;
+    document.querySelector("#loginPass").value = "";
+  }
+});
+
+document.querySelector("#logoutBtn").addEventListener("click", () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.hash = "";
+  location.reload();
+});
+
+if (sessionStorage.getItem(SESSION_KEY) === "1") startApp();

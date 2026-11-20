@@ -49,6 +49,21 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 .main-nav .nav-current { color: var(--brand-deep); }
 .main-nav a:hover { color: var(--brand-deep); text-decoration: underline; }
 .header-note { margin-left: auto; color: var(--muted); font-size: 12px; letter-spacing: .05em; }
+.logout-button { margin-left: 16px; }
+body.is-locked .site-header,
+body.is-locked #main,
+body.is-locked .site-footer,
+body.is-locked .skip-link { display: none; }
+body:not(.is-locked) .login-view { display: none; }
+.login-view { min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; }
+.login-card { width: min(100%, 400px); background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px 28px; }
+.login-brand { margin: 0 0 12px; color: var(--brand-deep); font-weight: 600; letter-spacing: .04em; }
+.login-card h1 { margin: 0 0 8px; font-family: var(--serif); font-size: 32px; font-weight: 500; letter-spacing: -.02em; }
+.login-note { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+.login-card label { display: block; margin-bottom: 14px; color: var(--muted); font-size: 13px; }
+.login-card input { display: block; width: 100%; margin-top: 6px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--control-line); border-radius: 10px; background: #fff; font-size: 16px; }
+.login-error { margin: 0 0 12px; color: #8d3428; font-size: 14px; }
+.login-card .primary-button { width: 100%; margin-top: 6px; }
 .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding: 16px 0 20px; }
 .hero-copy h1 { margin: 0 0 16px; font-family: var(--serif); font-weight: 500; font-size: 40px; line-height: 1.35; letter-spacing: -.025em; }
 .hero-copy h1 span { display: inline-block; max-width: 100%; color: var(--brand); text-wrap: balance; }

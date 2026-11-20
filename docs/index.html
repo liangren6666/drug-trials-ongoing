@@ -8,9 +8,20 @@
   <title>聚能信息 · 公开信息检索</title>
   <link rel="preload" href="assets/fonts/noto-serif-sc-display.woff2?v=2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/images/research-glass.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="app.css?v=10">
+  <link rel="stylesheet" href="app.css?v=11">
 </head>
-<body>
+<body class="is-locked">
+  <section class="login-view" aria-labelledby="loginHeading">
+    <form class="login-card" id="loginForm">
+      <p class="login-brand">聚能信息</p>
+      <h1 id="loginHeading">登录后查看</h1>
+      <p class="login-note">请输入账号和密码。</p>
+      <label>账号<input id="loginUser" name="username" autocomplete="username" required></label>
+      <label>密码<input id="loginPass" name="password" type="password" autocomplete="current-password" required></label>
+      <p class="login-error" id="loginError" role="alert" hidden>账号或密码不正确</p>
+      <button class="primary-button" type="submit">登录</button>
+    </form>
+  </section>
   <a class="skip-link" href="#trials">跳转到试验检索</a>
   <header class="site-header">
     <div class="header-inner shell">
@@ -24,6 +35,7 @@
         <a href="disclaimer.html">免责协议</a>
       </nav>
       <span class="header-note">公开数据 · 自由探索</span>
+      <button class="text-button logout-button" id="logoutBtn" type="button">退出</button>
     </div>
   </header>
 
@@ -111,6 +123,6 @@
     <div class="footer-source"><p>数据来源：国家药监局公开公示信息</p><p>本页为公开数据快照，轮播图为 AI 概念视觉。</p></div>
     <div class="footer-disclaimer"><p>免责声明：本平台为免费的信息检索工具，仅原样展示国家药监局官网公开公示信息，不提供任何其他服务，信息仅供查阅，相关内容以官方公示为准。</p><a href="disclaimer.html">查看完整免责协议</a></div>
   </footer>
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
