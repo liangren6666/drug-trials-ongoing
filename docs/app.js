@@ -548,8 +548,8 @@ updateCarouselButton();
 updateCarouselTimer();
 
 const SESSION_KEY = "juneng-session";
-const USER_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918";
-const PASS_HASH = "8b3ce0c3977ee6e8d53efeb1fb5b4f82bfb85e44b706c4eded197bd78875da67";
+const USER_HASH = "baa467188eef315fe30c6c71baeb66ddc5df6400584e55e40214f4d27601f7e9";
+const PASS_HASH = "9419189b205ec50e3164b48a2557abc97735c46e44f70cffda329783d4242683";
 const loginForm = document.querySelector("#loginForm");
 const loginError = document.querySelector("#loginError");
 
